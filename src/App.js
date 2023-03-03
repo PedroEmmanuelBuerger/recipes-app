@@ -18,6 +18,6 @@ function App() {
   );
 }
 
-// init
+// init2
 
 export default App;
