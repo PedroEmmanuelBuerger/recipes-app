@@ -5,31 +5,42 @@ import searchIcon from '../images/searchIcon.svg';
 
 export default function Header() {
   const [title, setTitle] = useState('');
-  const [SearchOk, setSearchOk] = useState(false);
+  const [SearchOk, setSearchOk] = useState(true);
   const history = useHistory();
   const [SearchBar, setSearchBar] = useState(false);
+  const { pathname } = history.location;
+
+  const verifyPathName = () => {
+    if (pathname === '/done-recipes' || pathname
+     === '/favorite-recipes' || pathname === '/profile') {
+      setSearchOk(false);
+    }
+    let titles = '';
+    switch (pathname) {
+    case '/meals':
+      titles = 'Meals';
+      break;
+    case '/drinks':
+      titles = 'Drinks';
+      break;
+    case '/profile':
+      titles = 'Profile';
+      break;
+    case '/done-recipes':
+      titles = 'Done Recipes';
+      break;
+    case '/favorite-recipes':
+      titles = 'Favorite Recipes';
+      break;
+    default:
+      titles = 'Recipes App';
+    }
+    setTitle(titles);
+  };
 
   useEffect(() => {
-    const { pathname } = window.location;
-    const PathnameWiouthSlash = pathname.slice(1);
-    const withFirstLetterMaiuscula = PathnameWiouthSlash
-      .charAt(0).toUpperCase() + PathnameWiouthSlash.slice(1);
-    setTitle(withFirstLetterMaiuscula);
-    if (pathname === '/done-recipes') {
-      setTitle('Done Recipes');
-    }
-    if (pathname === '/favorite-recipes') {
-      setTitle('Favorite Recipes');
-    }
-    if (pathname === '/profile' || pathname === '/done-recipes'
-     || pathname === '/favorite-recipes') {
-      setSearchOk(true);
-    }
-  }, [title]);
-
-  const handleClick = () => {
-    history.push('/profile');
-  };
+    verifyPathName();
+  }, [title, SearchOk]);
 
   const SearchBarClick = () => {
     if (SearchBar === false) {
@@ -38,13 +49,19 @@ export default function Header() {
     return setSearchBar(false);
   };
 
+  const handleClick = () => {
+    history.push('/profile');
+  };
+
   return (
     <header>
       <button type="button" onClick={ handleClick }>
         <img src={ profileIcon } data-testid="profile-top-btn" alt="avatar" />
       </button>
-      <h1 data-testid="page-title">{ title }</h1>
-      { !SearchOk
+      <h1 data-testid="page-title">
+        { title }
+      </h1>
+      { SearchOk
       && (
         <button type="button" onClick={ SearchBarClick }>
           <img
