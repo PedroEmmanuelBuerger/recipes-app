@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import AppReceitasProvider from './context/AppReceitasProvider';
+import SearchBarProvider from './context/SearchBarProvider';
 
 ReactDOM
   .createRoot(document.getElementById('root'))
@@ -15,5 +16,5 @@ ReactDOM
       </AppReceitasProvider>
     </BrowserRouter>,
   );
-
+  
 serviceWorker.unregister();
