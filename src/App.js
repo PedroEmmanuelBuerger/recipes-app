@@ -7,14 +7,24 @@ import Drinks from './pages/Drinks';
 import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
+import DrinkDetails from './pages/DrinkDetails';
+import MealsDetails from './pages/MealsDetails';
+import DrinkDetailsinProgress from './pages/DrinkDetailsinProgress';
+import MealsDetailsInProgress from './pages/MealsDetailsInProgress';
 
 function App() {
   return (
     <Switch>
-      <Route path="/drinks/:id-da-receita/in-progress" component={ Drinks } />
-      <Route path="/meals/:id-da-receita/in-progress" component={ Meals } />
-      <Route path="/drinks:id-da-receita" component={ Drinks } />
-      <Route path="/meals/:id-da-receita" component={ Meals } />
+      <Route
+        path="/drinks/:id-da-receita/in-progress"
+        component={ DrinkDetailsinProgress }
+      />
+      <Route
+        path="/meals/:id-da-receita/in-progress"
+        component={ MealsDetailsInProgress }
+      />
+      <Route path="/drinks:id-da-receita" component={ DrinkDetails } />
+      <Route path="/meals/:id-da-receita" component={ MealsDetails } />
       <Route path="/meals" component={ Meals } />
       <Route path="/drinks" component={ Drinks } />
       <Route path="/profile" component={ Profile } />
