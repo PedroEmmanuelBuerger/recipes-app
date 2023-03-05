@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import SearchBar from './SearchBar';
 
 export default function Header() {
   const [title, setTitle] = useState('');
   const [SearchOk, setSearchOk] = useState(true);
   const history = useHistory();
-  const [SearchBar, setSearchBar] = useState(false);
+  const [SearchBarInput, setSearchBarInput] = useState(false);
   const { pathname } = history.location;
 
   const verifyPathName = () => {
@@ -40,13 +41,14 @@ export default function Header() {
 
   useEffect(() => {
     verifyPathName();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [title, SearchOk]);
 
   const SearchBarClick = () => {
-    if (SearchBar === false) {
-      return setSearchBar(true);
+    if (SearchBarInput === false) {
+      return setSearchBarInput(true);
     }
-    return setSearchBar(false);
+    return setSearchBarInput(false);
   };
 
   const handleClick = () => {
@@ -71,7 +73,9 @@ export default function Header() {
           />
         </button>
       ) }
-      { SearchBar && <input type="text" data-testid="search-input" /> }
+      { SearchBarInput && <input type="text" data-testid="search-input" /> }
+      <br />
+      <SearchBar />
     </header>
   );
 }

@@ -1,8 +1,16 @@
 // Api de comidas, com endpoint value
 const urlBebidas = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?';
 const urlComidas = 'https://www.themealdb.com/api/json/v1/1/filter.php?';
+
 export const fetchApiComidasIngrediente = async (value) => {
   const response = await fetch(`${urlComidas}i=${value}`);
+  const data = await response.json();
+
+  console.log(data);
+};
+
+export const fetchApiComidasLetra = async (value) => {
+  const response = await fetch(`${urlComidas}f=${value}`);
   const data = await response.json();
 
   console.log(data);
