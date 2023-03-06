@@ -6,7 +6,6 @@ import App from '../App';
 import renderWithRouter from '../helpers/renderWithRouter';
 import AppReceitasProvider from '../context/AppReceitasProvider';
 
-
 const profileIcon = 'profile-top-btn';
 const searchicon = 'search-top-btn';
 
