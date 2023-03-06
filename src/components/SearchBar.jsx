@@ -11,8 +11,7 @@ function SearchBar() {
   } = useContext(AppReceitasContext);
 
   const handleClick = async () => {
-    const teste = await fetchAPI(textInput);
-    console.log(teste, 'vazio?');
+    await fetchAPI(textInput);
   };
 
   const verifica = () => {
