@@ -1,54 +1,89 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { fetchApiBebidasIngrediente, fetchApiBebidasLetra,
-  fetchApiBebidasName, fetchApiComidasIngrediente, fetchApiComidasLetra,
-  fetchApiComidasName } from '../helpers/fetchApi';
 import AppReceitasContext from './AppReceitasContext';
-// Função para chamada da Api de comidas e bebidas. Ver endpoint
-function AppReceitasProvider({ children }) {
-  const [buscaPorComidaIngrediente, setBuscaPorComidaIngrediente] = useState('milk');
-  const [buscaPorComidaName, setBuscaPorComidaName] = useState('milk');
-  const [buscaPorComidaLetra, setBuscaPorComidaLetra] = useState('milk');
-  const [buscaPorBebidaIngrediente, setBuscaPorBebidaIngrediente] = useState('');
-  const [buscaPorBebidaName, setBuscaPorBebidaName] = useState('');
-  const [buscaPorBebidaLetra, setBuscaPorBebidaLetra] = useState('');
 
-  useEffect(() => {
-    fetchApiComidasIngrediente(buscaPorComidaIngrediente);
-    fetchApiComidasName(buscaPorComidaName);
-    fetchApiComidasLetra(buscaPorComidaLetra);
-    fetchApiBebidasIngrediente(buscaPorBebidaIngrediente);
-    fetchApiBebidasName(buscaPorBebidaName);
-    fetchApiBebidasLetra(buscaPorBebidaLetra);
-  }, [buscaPorComidaIngrediente, buscaPorComidaName, buscaPorComidaLetra,
-    buscaPorBebidaIngrediente, buscaPorBebidaName, buscaPorBebidaLetra]);
+function AppReceitasProvider({ children }) {
+  const history = useHistory();
+
+  // Estados que controlam o formulário
+  const [selected, setSelected] = useState('');
+  const [textInput, setTextInput] = useState('');
+
+  const [buscaPorComida, setBuscaPorComida] = useState('');
+  const [buscaPorBebida, setBuscaPorBebida] = useState('');
+
+  const [title, setTitle] = useState('');
+  const [SearchOk, setSearchOk] = useState(true);
+  const [SearchBarInput, setSearchBarInput] = useState(false);
+
+  const fetchAPI = useCallback(async (value) => {
+    const urlBebidasSearch = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?';
+    const urlBebidasFilter = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?';
+
+    const urlComidasSearch = 'https://www.themealdb.com/api/json/v1/1/search.php?';
+    const urlComidasFilter = 'https://www.themealdb.com/api/json/v1/1/filter.php?';
+    // Condição estar na página meals e qual radio button foi selecionado.
+    if (history.location.pathname === '/meals') {
+      let endpoint = `${urlComidasFilter}i=${value}`;
+      if (selected === 'ingrediente') { endpoint = `${urlComidasFilter}i=${value}`; }
+      if (selected === 'nome') { endpoint = `${urlComidasSearch}s=${value}`; }
+      if (selected === 'primeira-letra') { endpoint = `${urlComidasSearch}f=${value}`; }
+      console.log(endpoint);
+      const response = await fetch(endpoint);
+      const data = await response.json();
+      console.log(data);
+      setBuscaPorComida(data);
+    }
+
+    if (history.location.pathname === '/drinks') {
+      let endpoint = `${urlBebidasFilter}i=${value}`;
+      if (selected === 'ingrediente') { endpoint = `${urlBebidasFilter}i=${value}`; }
+      if (selected === 'nome') { endpoint = `${urlBebidasSearch}s=${value}`; }
+      if (selected === 'primeira-letra') { endpoint = `${urlBebidasSearch}f=${value}`; }
+      const response = await fetch(endpoint);
+      const data = await response.json();
+      setBuscaPorBebida(data);
+    }
+  }, [history.location.pathname, selected]);
+
+  // useEffect(() => {
+  //   fetchAPI(textInput);
+  // }, [textInput]);
 
   const context = useMemo(() => ({
-    buscaPorComidaIngrediente,
-    buscaPorComidaLetra,
-    buscaPorComidaName,
-    setBuscaPorComidaIngrediente,
-    setBuscaPorComidaLetra,
-    setBuscaPorComidaName,
-    buscaPorBebidaIngrediente,
-    buscaPorBebidaLetra,
-    buscaPorBebidaName,
-    setBuscaPorBebidaIngrediente,
-    setBuscaPorBebidaLetra,
-    setBuscaPorBebidaName,
+    fetchAPI,
+    selected,
+    setSelected,
+    buscaPorBebida,
+    setBuscaPorBebida,
+    buscaPorComida,
+    setBuscaPorComida,
+    title,
+    setTitle,
+    SearchOk,
+    setSearchOk,
+    SearchBarInput,
+    setSearchBarInput,
+    textInput,
+    setTextInput,
+
   }), [
-    buscaPorComidaIngrediente,
-    buscaPorComidaLetra,
-    buscaPorComidaName,
-    setBuscaPorComidaIngrediente,
-    setBuscaPorComidaLetra,
-    setBuscaPorComidaName,
-    buscaPorBebidaIngrediente,
-    buscaPorBebidaLetra,
-    buscaPorBebidaName,
-    setBuscaPorBebidaIngrediente,
-    setBuscaPorBebidaLetra,
-    setBuscaPorBebidaName,
+    fetchAPI,
+    selected,
+    setSelected,
+    buscaPorBebida,
+    setBuscaPorBebida,
+    buscaPorComida,
+    setBuscaPorComida,
+    title,
+    setTitle,
+    SearchOk,
+    setSearchOk,
+    SearchBarInput,
+    setSearchBarInput,
+    textInput,
+    setTextInput,
   ]);
 
   return (
