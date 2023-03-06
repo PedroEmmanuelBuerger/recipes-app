@@ -14,6 +14,7 @@ function AppReceitasProvider({ children }) {
   const [buscaPorBebida, setBuscaPorBebida] = useState('');
 
   const [recipes, setRecipes] = useState([]);
+  const [categoriesRecipes, setCategoriesRecipes] = useState([]);
 
   const [title, setTitle] = useState('');
   const [SearchOk, setSearchOk] = useState(true);
@@ -34,7 +35,6 @@ function AppReceitasProvider({ children }) {
       console.log(endpoint);
       const response = await fetch(endpoint);
       const data = await response.json();
-      console.log(data);
       setBuscaPorComida(data);
     }
 
@@ -48,10 +48,6 @@ function AppReceitasProvider({ children }) {
       setBuscaPorBebida(data);
     }
   }, [history.location.pathname, selected]);
-
-  // useEffect(() => {
-  //   fetchAPI(textInput);
-  // }, [textInput]);
 
   const context = useMemo(() => ({
     fetchAPI,
@@ -71,7 +67,8 @@ function AppReceitasProvider({ children }) {
     setTextInput,
     recipes,
     setRecipes,
-
+    categoriesRecipes,
+    setCategoriesRecipes,
   }), [
     fetchAPI,
     selected,
@@ -82,6 +79,7 @@ function AppReceitasProvider({ children }) {
     SearchBarInput,
     textInput,
     recipes,
+    categoriesRecipes,
   ]);
 
   return (

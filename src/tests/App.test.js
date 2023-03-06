@@ -128,5 +128,99 @@ describe('testa as funcionalidades do header', () => {
     act(() => {
       userEvent.type(searchInput, 'Arrabiata');
     });
+    expect(searchInput.value).toBe('Arrabiata');
+  });
+});
+
+describe('teste o componente dos recipes', () => {
+  it('verifica se é feito uma requesição a api e verifica se as coisas são renderizadas normalmente tanto na pagina do meals', async () => {
+    const { history } = renderWithRouter(
+      <AppReceitasProvider>
+        <App />
+      </AppReceitasProvider>,
+    );
+    act(() => {
+      history.push('/meals');
+    });
+    const allCategoriesName = ['Beef', 'Breakfast', 'Chicken', 'Dessert', 'Goat'];
+    const beefCategories = await screen.findByText(allCategoriesName[0]);
+    expect(beefCategories).toBeInTheDocument();
+    const breakfastCategories = await screen.findByText(allCategoriesName[1]);
+    expect(breakfastCategories).toBeInTheDocument();
+    const chickenCategories = await screen.findByText(allCategoriesName[2]);
+    expect(chickenCategories).toBeInTheDocument();
+    const dessertCategories = await screen.findByText(allCategoriesName[3]);
+    expect(dessertCategories).toBeInTheDocument();
+    const goatCategories = await screen.findByText(allCategoriesName[4]);
+    expect(goatCategories).toBeInTheDocument();
+    const recipeCard0 = await screen.findByTestId('0-recipe-card');
+    expect(recipeCard0).toBeInTheDocument();
+    const recipeCard1 = await screen.findByTestId('1-recipe-card');
+    expect(recipeCard1).toBeInTheDocument();
+    const recipeCard2 = await screen.findByTestId('2-recipe-card');
+    expect(recipeCard2).toBeInTheDocument();
+    const recipeCard3 = await screen.findByTestId('3-recipe-card');
+    expect(recipeCard3).toBeInTheDocument();
+    const recipeCard4 = await screen.findByTestId('4-recipe-card');
+    expect(recipeCard4).toBeInTheDocument();
+    const recipeCard5 = await screen.findByTestId('5-recipe-card');
+    expect(recipeCard5).toBeInTheDocument();
+    const recipeCard6 = await screen.findByTestId('6-recipe-card');
+    expect(recipeCard6).toBeInTheDocument();
+    const recipeCard7 = await screen.findByTestId('7-recipe-card');
+    expect(recipeCard7).toBeInTheDocument();
+    const recipeCard8 = await screen.findByTestId('8-recipe-card');
+    expect(recipeCard8).toBeInTheDocument();
+    const recipeCard9 = await screen.findByTestId('9-recipe-card');
+    expect(recipeCard9).toBeInTheDocument();
+    const recipeCard10 = await screen.findByTestId('10-recipe-card');
+    expect(recipeCard10).toBeInTheDocument();
+    const recipeCard11 = await screen.findByTestId('11-recipe-card');
+    expect(recipeCard11).toBeInTheDocument();
+  });
+  it('verifica se a renderização dos elementos do recipes é feito na pagina do drink', async () => {
+    const { history } = renderWithRouter(
+      <AppReceitasProvider>
+        <App />
+      </AppReceitasProvider>,
+    );
+    act(() => {
+      history.push('/drinks');
+    });
+    const allCategoriesName = ['Ordinary Drink', 'Cocktail', 'Shake', 'Other / Unknown', 'Cocoa'];
+    const ordinaryDrinkCategories = await screen.findByText(allCategoriesName[0]);
+    expect(ordinaryDrinkCategories).toBeInTheDocument();
+    const cocktailCategories = await screen.findByText(allCategoriesName[1]);
+    expect(cocktailCategories).toBeInTheDocument();
+    const milkCategories = await screen.findByText(allCategoriesName[2]);
+    expect(milkCategories).toBeInTheDocument();
+    const otherCategories = await screen.findByText(allCategoriesName[3]);
+    expect(otherCategories).toBeInTheDocument();
+    const cocoaCategories = await screen.findByText(allCategoriesName[4]);
+    expect(cocoaCategories).toBeInTheDocument();
+    const recipeCard0 = await screen.findByTestId('0-recipe-card');
+    expect(recipeCard0).toBeInTheDocument();
+    const recipeCard1 = await screen.findByTestId('1-recipe-card');
+    expect(recipeCard1).toBeInTheDocument();
+    const recipeCard2 = await screen.findByTestId('2-recipe-card');
+    expect(recipeCard2).toBeInTheDocument();
+    const recipeCard3 = await screen.findByTestId('3-recipe-card');
+    expect(recipeCard3).toBeInTheDocument();
+    const recipeCard4 = await screen.findByTestId('4-recipe-card');
+    expect(recipeCard4).toBeInTheDocument();
+    const recipeCard5 = await screen.findByTestId('5-recipe-card');
+    expect(recipeCard5).toBeInTheDocument();
+    const recipeCard6 = await screen.findByTestId('6-recipe-card');
+    expect(recipeCard6).toBeInTheDocument();
+    const recipeCard7 = await screen.findByTestId('7-recipe-card');
+    expect(recipeCard7).toBeInTheDocument();
+    const recipeCard8 = await screen.findByTestId('8-recipe-card');
+    expect(recipeCard8).toBeInTheDocument();
+    const recipeCard9 = await screen.findByTestId('9-recipe-card');
+    expect(recipeCard9).toBeInTheDocument();
+    const recipeCard10 = await screen.findByTestId('10-recipe-card');
+    expect(recipeCard10).toBeInTheDocument();
+    const recipeCard11 = await screen.findByTestId('11-recipe-card');
+    expect(recipeCard11).toBeInTheDocument();
   });
 });
