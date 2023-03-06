@@ -1,26 +1,89 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { fetchApiComidas, fetchApiBebidas } from '../helpers/fetchApi';
 import AppReceitasContext from './AppReceitasContext';
-// Função para chamada da Api de comidas e bebidas. Ver endpoint
+
 function AppReceitasProvider({ children }) {
-  const [buscaPorComida, setBuscaPorComida] = useState('milk');
+  const history = useHistory();
+
+  // Estados que controlam o formulário
+  const [selected, setSelected] = useState('');
+  const [textInput, setTextInput] = useState('');
+
+  const [buscaPorComida, setBuscaPorComida] = useState('');
   const [buscaPorBebida, setBuscaPorBebida] = useState('');
-  useEffect(() => {
-    fetchApiComidas(buscaPorComida);
-    fetchApiBebidas(buscaPorBebida);
-  }, [buscaPorComida, buscaPorBebida]);
+
+  const [title, setTitle] = useState('');
+  const [SearchOk, setSearchOk] = useState(true);
+  const [SearchBarInput, setSearchBarInput] = useState(false);
+
+  const fetchAPI = useCallback(async (value) => {
+    const urlBebidasSearch = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?';
+    const urlBebidasFilter = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?';
+
+    const urlComidasSearch = 'https://www.themealdb.com/api/json/v1/1/search.php?';
+    const urlComidasFilter = 'https://www.themealdb.com/api/json/v1/1/filter.php?';
+    // Condição estar na página meals e qual radio button foi selecionado.
+    if (history.location.pathname === '/meals') {
+      let endpoint = `${urlComidasFilter}i=${value}`;
+      if (selected === 'ingrediente') { endpoint = `${urlComidasFilter}i=${value}`; }
+      if (selected === 'nome') { endpoint = `${urlComidasSearch}s=${value}`; }
+      if (selected === 'primeira-letra') { endpoint = `${urlComidasSearch}f=${value}`; }
+      console.log(endpoint);
+      const response = await fetch(endpoint);
+      const data = await response.json();
+      console.log(data);
+      setBuscaPorComida(data);
+    }
+
+    if (history.location.pathname === '/drinks') {
+      let endpoint = `${urlBebidasFilter}i=${value}`;
+      if (selected === 'ingrediente') { endpoint = `${urlBebidasFilter}i=${value}`; }
+      if (selected === 'nome') { endpoint = `${urlBebidasSearch}s=${value}`; }
+      if (selected === 'primeira-letra') { endpoint = `${urlBebidasSearch}f=${value}`; }
+      const response = await fetch(endpoint);
+      const data = await response.json();
+      setBuscaPorBebida(data);
+    }
+  }, [history.location.pathname, selected]);
+
+  // useEffect(() => {
+  //   fetchAPI(textInput);
+  // }, [textInput]);
 
   const context = useMemo(() => ({
-    buscaPorComida,
-    setBuscaPorComida,
+    fetchAPI,
+    selected,
+    setSelected,
     buscaPorBebida,
     setBuscaPorBebida,
+    buscaPorComida,
+    setBuscaPorComida,
+    title,
+    setTitle,
+    SearchOk,
+    setSearchOk,
+    SearchBarInput,
+    setSearchBarInput,
+    textInput,
+    setTextInput,
+
   }), [
-    buscaPorComida,
-    setBuscaPorComida,
+    fetchAPI,
+    selected,
+    setSelected,
     buscaPorBebida,
     setBuscaPorBebida,
+    buscaPorComida,
+    setBuscaPorComida,
+    title,
+    setTitle,
+    SearchOk,
+    setSearchOk,
+    SearchBarInput,
+    setSearchBarInput,
+    textInput,
+    setTextInput,
   ]);
 
   return (
