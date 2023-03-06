@@ -13,6 +13,8 @@ function AppReceitasProvider({ children }) {
   const [buscaPorComida, setBuscaPorComida] = useState('');
   const [buscaPorBebida, setBuscaPorBebida] = useState('');
 
+  const [recipes, setRecipes] = useState([]);
+
   const [title, setTitle] = useState('');
   const [SearchOk, setSearchOk] = useState(true);
   const [SearchBarInput, setSearchBarInput] = useState(false);
@@ -67,23 +69,19 @@ function AppReceitasProvider({ children }) {
     setSearchBarInput,
     textInput,
     setTextInput,
+    recipes,
+    setRecipes,
 
   }), [
     fetchAPI,
     selected,
-    setSelected,
     buscaPorBebida,
-    setBuscaPorBebida,
     buscaPorComida,
-    setBuscaPorComida,
     title,
-    setTitle,
     SearchOk,
-    setSearchOk,
     SearchBarInput,
-    setSearchBarInput,
     textInput,
-    setTextInput,
+    recipes,
   ]);
 
   return (

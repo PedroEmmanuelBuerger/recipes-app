@@ -1,15 +1,22 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
+import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from '../helpers/renderWithRouter';
+import AppReceitasProvider from '../context/AppReceitasProvider';
+
 
 const profileIcon = 'profile-top-btn';
 const searchicon = 'search-top-btn';
 
 describe('testa as funcionalidades do header', () => {
   it('verifica se o header é renderizado com ambos os inputs nas paginas: meals, drinks, profile, done-recipes e favorite-recipes', () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouter(
+      <AppReceitasProvider>
+        <App />
+      </AppReceitasProvider>,
+    );
     act(() => {
       history.push('/meals');
     });
@@ -60,7 +67,11 @@ describe('testa as funcionalidades do header', () => {
     expect(searchIcon1).not.toBeInTheDocument();
   });
   it('verifica se ao clicar no icone de perfil(/profile) é redirecionado para a pagina de perfil', () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouter(
+      <AppReceitasProvider>
+        <App />
+      </AppReceitasProvider>,
+    );
     act(() => {
       history.push('/meals');
     });
@@ -75,7 +86,11 @@ describe('testa as funcionalidades do header', () => {
     expect(pathname2).toBe('/profile');
   });
   it('verifica se ao clicar no icone de busca(/search) o input de busca aparece e se ao clicar novamente ele some', () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouter(
+      <AppReceitasProvider>
+        <App />
+      </AppReceitasProvider>,
+    );
     act(() => {
       history.push('/meals');
     });
@@ -92,5 +107,27 @@ describe('testa as funcionalidades do header', () => {
       searchIcon1.click();
     });
     expect(searchInput).not.toBeInTheDocument();
+  });
+  it('testa se o input do header faz a pesquisa', async () => {
+    const { history } = renderWithRouter(
+      <AppReceitasProvider>
+        <App />
+      </AppReceitasProvider>,
+    );
+    act(() => {
+      history.push('/meals');
+    });
+    const { pathname } = history.location;
+    expect(pathname).toBe('/meals');
+    const searchIcon1 = screen.getByTestId(searchicon);
+    expect(searchIcon1).toBeInTheDocument();
+    act(() => {
+      searchIcon1.click();
+    });
+    const searchInput = screen.getByTestId('search-input');
+    expect(searchInput).toBeInTheDocument();
+    act(() => {
+      userEvent.type(searchInput, 'Arrabiata');
+    });
   });
 });

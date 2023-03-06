@@ -38,11 +38,9 @@ export default function Header() {
     case '/done-recipes':
       titles = 'Done Recipes';
       break;
-    case '/favorite-recipes':
+    default:
       titles = 'Favorite Recipes';
       break;
-    default:
-      titles = 'Recipes App';
     }
     setTitle(titles);
   };
