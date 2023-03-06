@@ -109,6 +109,5 @@ describe('Testa as funcionalidades do SearchBar', () => {
     userEvent.type(searchInput, 'aa');
     const alert = screen.findByText('Your search must have only 1 (one) character');
     expect(alert).toBeDefined();
-    // userEvent.click(button);
   });
 });
