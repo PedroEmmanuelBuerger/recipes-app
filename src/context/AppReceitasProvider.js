@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from 'react';
+
 import PropTypes from 'prop-types';
+import { fetchApiComidas, fetchApiBebidas } from '../helpers/fetchApi';
 import AppReceitasContext from './AppReceitasContext';
 // Função para chamada da Api de comidas e bebidas. Ver endpoint
 function AppReceitasProvider({ children }) {
