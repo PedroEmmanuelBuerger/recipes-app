@@ -8,6 +8,7 @@ export default function Recipes() {
     setCategoriesRecipes } = useContext(AppReceitasContext);
 
   const [withoutFilter, setwithoutFilterscat] = useState([]);
+  const [toggled, setToggled] = useState(false);
 
   const getRecipes = async () => {
     const { location: { pathname } } = history;
@@ -47,10 +48,20 @@ export default function Recipes() {
       .then((data) => data.meals || data.drinks);
     const firtsResults = categoryApi.slice(0, magicNumber);
     setRecipes(firtsResults);
+    setToggled(!toggled);
   };
 
   const removeFilters = () => {
     setRecipes(withoutFilter);
+    setToggled(!toggled);
+  };
+
+  const toggle = (category) => {
+    if (!toggled) {
+      setCategoryFunc(category);
+    } else {
+      removeFilters();
+    }
   };
 
   useEffect(() => {
@@ -71,7 +82,7 @@ export default function Recipes() {
           key={ index }
           data-testid={ `${category.strCategory}-category-filter` }
           type="button"
-          onClick={ () => setCategoryFunc(category.strCategory) }
+          onClick={ () => toggle(category.strCategory) }
         >
           {category.strCategory}
         </button>
