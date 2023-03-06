@@ -58,10 +58,18 @@ export default function Recipes() {
 
   const toggle = (category) => {
     if (!toggled) {
-      setCategoryFunc(category);
-    } else {
-      removeFilters();
+      return setCategoryFunc(category);
     }
+    return removeFilters();
+  };
+
+  const getDetails = (recipe) => {
+    const id = recipe.idMeal || recipe.idDrink;
+    const { location: { pathname } } = history;
+    const path = pathname.includes('meals')
+      ? `/meals/${id}`
+      : `/drinks/${id}`;
+    history.push(path);
   };
 
   useEffect(() => {
@@ -88,11 +96,16 @@ export default function Recipes() {
         </button>
       ))}
       {recipes.map((recipe, index) => (
-        <div key={ index } data-testid={ `${index}-recipe-card` }>
+        <div
+          key={ index }
+          data-testid={ `${index}-recipe-card` }
+        >
           <h2 data-testid={ `${index}-card-name` }>
             {recipe.strMeal || recipe.strDrink}
           </h2>
           <img
+            aria-hidden="true"
+            onClick={ () => getDetails(recipe) }
             data-testid={ `${index}-card-img` }
             src={ recipe.strMealThumb || recipe.strDrinkThumb }
             alt={ recipe.strMeal || recipe.strDrink }

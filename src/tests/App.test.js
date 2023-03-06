@@ -9,6 +9,9 @@ import AppReceitasProvider from '../context/AppReceitasProvider';
 const profileIcon = 'profile-top-btn';
 const searchicon = 'search-top-btn';
 
+const card = '0-recipe-card';
+const card2 = '1-recipe-card';
+
 describe('testa as funcionalidades do header', () => {
   it('verifica se o header é renderizado com ambos os inputs nas paginas: meals, drinks, profile, done-recipes e favorite-recipes', () => {
     const { history } = renderWithRouter(
@@ -153,9 +156,9 @@ describe('teste o componente dos recipes', () => {
     expect(dessertCategories).toBeInTheDocument();
     const goatCategories = await screen.findByText(allCategoriesName[4]);
     expect(goatCategories).toBeInTheDocument();
-    const recipeCard0 = await screen.findByTestId('0-recipe-card');
+    const recipeCard0 = await screen.findByTestId(card);
     expect(recipeCard0).toBeInTheDocument();
-    const recipeCard1 = await screen.findByTestId('1-recipe-card');
+    const recipeCard1 = await screen.findByTestId(card2);
     expect(recipeCard1).toBeInTheDocument();
     const recipeCard2 = await screen.findByTestId('2-recipe-card');
     expect(recipeCard2).toBeInTheDocument();
@@ -222,5 +225,21 @@ describe('teste o componente dos recipes', () => {
     expect(recipeCard10).toBeInTheDocument();
     const recipeCard11 = await screen.findByTestId('11-recipe-card');
     expect(recipeCard11).toBeInTheDocument();
+  });
+  it('testa as funcionalidades dos de categoria', async () => {
+    const { history } = renderWithRouter(
+      <AppReceitasProvider>
+        <App />
+      </AppReceitasProvider>,
+    );
+    act(() => {
+      history.push('/meals');
+    });
+    const breakfast = await screen.findByRole('button', { name: /breakfast/i });
+    expect(breakfast).toBeInTheDocument();
+    userEvent.click(breakfast);
+    const recipeCard0 = await screen.findByTestId(card);
+    expect(recipeCard0).toBeInTheDocument();
+    expect(recipeCard0).toHaveTextContent(/breakfast/i);
   });
 });
