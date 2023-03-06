@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import AppReceitasContext from '../context/AppReceitasContext';
 
@@ -6,6 +6,8 @@ export default function Recipes() {
   const history = useHistory();
   const { recipes, setRecipes, categoriesRecipes,
     setCategoriesRecipes } = useContext(AppReceitasContext);
+
+  const [withoutFilter, setwithoutFilterscat] = useState([]);
 
   const getRecipes = async () => {
     const { location: { pathname } } = history;
@@ -18,6 +20,7 @@ export default function Recipes() {
       .then((data) => data.meals || data.drinks);
     const firtsResults = result.slice(0, magicNumber);
     setRecipes(firtsResults);
+    setwithoutFilterscat(firtsResults);
   };
 
   const getCategories = async () => {
@@ -33,6 +36,23 @@ export default function Recipes() {
     setCategoriesRecipes(firtsResults);
   };
 
+  const setCategoryFunc = async (category) => {
+    const { location: { pathname } } = history;
+    const magicNumber = 12;
+    const UrlApi = pathname.includes('meals')
+      ? `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
+      : `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`;
+    const categoryApi = await fetch(UrlApi)
+      .then((response) => response.json())
+      .then((data) => data.meals || data.drinks);
+    const firtsResults = categoryApi.slice(0, magicNumber);
+    setRecipes(firtsResults);
+  };
+
+  const removeFilters = () => {
+    setRecipes(withoutFilter);
+  };
+
   useEffect(() => {
     getRecipes();
     getCategories();
@@ -40,11 +60,18 @@ export default function Recipes() {
 
   return (
     <div>
+      <button
+        onClick={ () => removeFilters() }
+        data-testid="All-category-filter"
+      >
+        All
+      </button>
       {categoriesRecipes.map((category, index) => (
         <button
           key={ index }
           data-testid={ `${category.strCategory}-category-filter` }
           type="button"
+          onClick={ () => setCategoryFunc(category.strCategory) }
         >
           {category.strCategory}
         </button>
