@@ -12,7 +12,6 @@ function AppReceitasProvider({ children }) {
 
   const [buscaPorComida, setBuscaPorComida] = useState('');
   const [buscaPorBebida, setBuscaPorBebida] = useState('');
-
   const [title, setTitle] = useState('');
   const [SearchOk, setSearchOk] = useState(true);
   const [SearchBarInput, setSearchBarInput] = useState(false);
@@ -23,7 +22,7 @@ function AppReceitasProvider({ children }) {
 
     const urlComidasSearch = 'https://www.themealdb.com/api/json/v1/1/search.php?';
     const urlComidasFilter = 'https://www.themealdb.com/api/json/v1/1/filter.php?';
-    // Condição estar na página meals e qual radio button foi selecionado.
+    // Condição estar na página meals e qual radio button foi selecionado
     if (history.location.pathname === '/meals') {
       let endpoint = `${urlComidasFilter}i=${value}`;
       if (selected === 'ingrediente') { endpoint = `${urlComidasFilter}i=${value}`; }

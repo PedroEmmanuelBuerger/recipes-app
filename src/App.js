@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import { Switch, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Meals from './pages/Meals';
@@ -11,6 +10,7 @@ import DrinkDetails from './pages/DrinkDetails';
 import MealsDetails from './pages/MealsDetails';
 import DrinkDetailsinProgress from './pages/DrinkDetailsinProgress';
 import MealsDetailsInProgress from './pages/MealsDetailsInProgress';
+import './App.css';
 
 function App() {
   return (
