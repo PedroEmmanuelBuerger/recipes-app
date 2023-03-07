@@ -11,6 +11,7 @@ function AppRecipesProvider({ children }) {
   const [categoriesRecipesMeal, setCategoriesRecipesMeal] = useState([]);
   const [categoriesRecipesDrink, setCategoriesRecipesDrink] = useState([]);
   const [filter, setFilter] = useState([]);
+  const [detailRecipe, setDetailRecipe] = useState([]);
 
   const ApiMeals = async () => {
     const result = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
@@ -55,6 +56,19 @@ function AppRecipesProvider({ children }) {
     }
   };
 
+  const RecipesDetailsApi = async (id, pathname) => {
+    if (pathname.includes('meals')) {
+      const result = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+      const data = await result.json();
+      setDetailRecipe(data.meals[0]);
+    }
+    if (pathname.includes('drinks')) {
+      const result = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+      const data = await result.json();
+      setDetailRecipe(data.drinks[0]);
+    }
+  };
+
   useEffect(() => {
     ApiMeals();
     ApiDrinks();
@@ -74,6 +88,8 @@ function AppRecipesProvider({ children }) {
     filterByCategory,
     filter,
     setFilter,
+    RecipesDetailsApi,
+    detailRecipe,
   }), [recipesMeal, recipesDrink, categoriesRecipesDrink, categoriesRecipesMeal, filter]);
 
   return (
