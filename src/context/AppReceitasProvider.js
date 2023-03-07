@@ -29,10 +29,8 @@ function AppReceitasProvider({ children }) {
       if (selected === 'ingrediente') { endpoint = `${urlComidasFilter}i=${value}`; }
       if (selected === 'nome') { endpoint = `${urlComidasSearch}s=${value}`; }
       if (selected === 'primeira-letra') { endpoint = `${urlComidasSearch}f=${value}`; }
-      console.log(endpoint);
       const response = await fetch(endpoint);
       const data = await response.json();
-      console.log(data);
       setBuscaPorComida(data);
     }
 
@@ -46,10 +44,6 @@ function AppReceitasProvider({ children }) {
       setBuscaPorBebida(data);
     }
   }, [history.location.pathname, selected]);
-
-  // useEffect(() => {
-  //   fetchAPI(textInput);
-  // }, [textInput]);
 
   const context = useMemo(() => ({
     fetchAPI,
@@ -67,23 +61,15 @@ function AppReceitasProvider({ children }) {
     setSearchBarInput,
     textInput,
     setTextInput,
-
   }), [
     fetchAPI,
     selected,
-    setSelected,
     buscaPorBebida,
-    setBuscaPorBebida,
     buscaPorComida,
-    setBuscaPorComida,
     title,
-    setTitle,
     SearchOk,
-    setSearchOk,
     SearchBarInput,
-    setSearchBarInput,
     textInput,
-    setTextInput,
   ]);
 
   return (
