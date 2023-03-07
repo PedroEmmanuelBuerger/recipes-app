@@ -1,5 +1,4 @@
 import React from 'react';
-import '../App.css';
 import { useHistory } from 'react-router-dom';
 import drinkIcon from '../images/drinkIcon.svg';
 import mealIcon from '../images/mealIcon.svg';
