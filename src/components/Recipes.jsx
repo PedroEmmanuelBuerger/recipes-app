@@ -13,25 +13,17 @@ export default function Recipes() {
 
   const [recipes, setRecipes] = useState([]);
   const [categoriesRecipes, setCategoriesRecipes] = useState([]);
-  const [toggled, setToggled] = useState(false);
 
   const setCategoryFunc = async (category) => {
     const { location: { pathname } } = history;
     await filterByCategory(category, pathname);
-    setToggled(!toggled);
   };
 
   const removeFilters = () => {
     setFilter([]);
-    setToggled(!toggled);
   };
 
-  const toggle = (category) => {
-    if (!toggled) {
-      return setCategoryFunc(category);
-    }
-    removeFilters();
-  };
+  const toggle = (category) => setCategoryFunc(category);
 
   const getDetails = (recipe) => {
     const id = recipe.idMeal || recipe.idDrink;
@@ -51,10 +43,14 @@ export default function Recipes() {
       setRecipes(recipesDrink);
       setCategoriesRecipes(categoriesRecipesDrink);
     }
-    if (filter.length > 0) {
-      setRecipes(filter);
-    }
-  }, [recipesMeal, recipesDrink, filter, categoriesRecipesMeal, categoriesRecipesDrink]);
+  }, [recipesMeal, recipesDrink, categoriesRecipesMeal, categoriesRecipesDrink]);
+
+  useEffect(() => {
+    const { location: { pathname } } = history;
+    const mealsOrDrinks = pathname.includes('meals') ? recipesMeal : recipesDrink;
+    const setWith = filter.length > 0 ? filter : mealsOrDrinks;
+    setRecipes(setWith);
+  }, [filter]);
 
   return (
     <div>

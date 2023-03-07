@@ -214,7 +214,7 @@ describe('teste o componente dos recipes', () => {
     expect(otherCategories).toBeInTheDocument();
     const cocoaCategories = await screen.findByText(allCategoriesName[4]);
     expect(cocoaCategories).toBeInTheDocument();
-    const recipeCard0 = await screen.findByTestId('0-recipe-card');
+    const recipeCard0 = await screen.findByTestId(card);
     expect(recipeCard0).toBeInTheDocument();
     const recipeCard1 = await screen.findByTestId('1-recipe-card');
     expect(recipeCard1).toBeInTheDocument();
@@ -253,7 +253,95 @@ describe('teste o componente dos recipes', () => {
     const beef = await screen.findByTestId('Beef-category-filter');
     expect(beef).toBeInTheDocument();
     act(() => {
-      beef.click();
+      userEvent.click(beef);
+    });
+    const recipeCard0 = await screen.findByTestId(card);
+    expect(recipeCard0).toBeInTheDocument();
+  });
+  it('verifica se o botão de de limpar o filtro funciona', async () => {
+    const { history } = renderWithRouter(
+      <AppRecipesProvider>
+        <AppReceitasProvider>
+          <App />
+        </AppReceitasProvider>
+      </AppRecipesProvider>,
+    );
+    act(() => {
+      history.push('/meals');
+    });
+    const beef = await screen.findByTestId('Beef-category-filter');
+    expect(beef).toBeInTheDocument();
+    act(() => {
+      userEvent.click(beef);
+    });
+    const recipeCard0 = await screen.findByTestId(card);
+    expect(recipeCard0).toBeInTheDocument();
+    expect(recipeCard0).toHaveTextContent('Corba');
+    const all = await screen.findByTestId('All-category-filter');
+    expect(all).toBeInTheDocument();
+    act(() => {
+      userEvent.click(all);
+    });
+    const recipeCard1 = await screen.findByTestId(card2);
+    expect(recipeCard1).toBeInTheDocument();
+    expect(recipeCard1).toHaveTextContent('Burek');
+  });
+  it('verifica se ao clicar em um card vai para a pagina de detalhes', async () => {
+    const { history } = renderWithRouter(
+      <AppRecipesProvider>
+        <AppReceitasProvider>
+          <App />
+        </AppReceitasProvider>
+      </AppRecipesProvider>,
+    );
+    act(() => {
+      history.push('/meals');
+    });
+    const recipeCard0 = await screen.findByTestId(card);
+    expect(recipeCard0).toBeInTheDocument();
+    act(() => {
+      userEvent.click(recipeCard0);
+    });
+    const { pathname } = history.location;
+    expect(pathname).toBe('/meals/52977');
+    act(() => {
+      history.push('/drinks');
+    });
+    const recipeCard1 = await screen.findByTestId(card);
+    expect(recipeCard1).toBeInTheDocument();
+    act(() => {
+      userEvent.click(recipeCard1);
+    });
+    const { pathname: pathname2 } = history.location;
+    expect(pathname2).toBe('/drinks/15997');
+  });
+  it('verifica se ao clicar duas vezes ele retorna para o filtro original', async () => {
+    const { history } = renderWithRouter(
+      <AppRecipesProvider>
+        <AppReceitasProvider>
+          <App />
+        </AppReceitasProvider>
+      </AppRecipesProvider>,
+    );
+    act(() => {
+      history.push('/meals');
+    });
+    const breakf = await screen.findByTestId('Breakfast-category-filter');
+    expect(breakf).toBeInTheDocument();
+    act(() => {
+      userEvent.click(breakf);
+    });
+    const recipeCard0 = await screen.findByTestId(card);
+    expect(recipeCard0).toBeInTheDocument();
+    expect(recipeCard0).toHaveTextContent('Corba');
+    act(() => {
+      userEvent.click(breakf);
+    });
+    const recipeCard1 = await screen.findByTestId(card2);
+    expect(recipeCard1).toBeInTheDocument();
+    expect(recipeCard1).toHaveTextContent('Burek');
+    act(() => {
+      userEvent.click(breakf);
     });
   });
 });

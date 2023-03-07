@@ -40,6 +40,7 @@ function AppRecipesProvider({ children }) {
   };
 
   const filterByCategory = async (category, pathname) => {
+    if (filter.length > 0) return setFilter([]);
     if (pathname.includes('meals')) {
       const result = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
       const data = await result.json();
