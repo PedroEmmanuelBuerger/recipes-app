@@ -239,7 +239,7 @@ describe('teste o componente dos recipes', () => {
     const recipeCard11 = await screen.findByTestId('11-recipe-card');
     expect(recipeCard11).toBeInTheDocument();
   });
-  it('testa a funcionalidade dos botoes de categoria', async() => {
+  it('testa a funcionalidade dos botoes de categoria', async () => {
     const { history } = renderWithRouter(
       <AppRecipesProvider>
         <AppReceitasProvider>
