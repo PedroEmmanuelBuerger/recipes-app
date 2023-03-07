@@ -344,4 +344,36 @@ describe('teste o componente dos recipes', () => {
       userEvent.click(breakf);
     });
   });
+  it('verifica se da tudo certo na pagina de drinks', async () => {
+    const { history } = renderWithRouter(
+      <AppRecipesProvider>
+        <AppReceitasProvider>
+          <App />
+        </AppReceitasProvider>
+      </AppRecipesProvider>,
+    );
+    act(() => {
+      history.push('/drinks');
+    });
+    const allCategoriesName = ['Ordinary Drink', 'Cocktail', 'Shake', 'Other / Unknown', 'Cocoa'];
+    const ordinaryDrinkCategories = await screen.findByText(allCategoriesName[0]);
+    expect(ordinaryDrinkCategories).toBeInTheDocument();
+    const cocktailCategories = await screen.findByText(allCategoriesName[1]);
+    expect(cocktailCategories).toBeInTheDocument();
+    const milkCategories = await screen.findByText(allCategoriesName[2]);
+    expect(milkCategories).toBeInTheDocument();
+    const otherCategories = await screen.findByText(allCategoriesName[3]);
+    expect(otherCategories).toBeInTheDocument();
+    const cocoaCategories = await screen.findByText(allCategoriesName[4]);
+    expect(cocoaCategories).toBeInTheDocument();
+    const recipeCard0 = await screen.findByTestId(card);
+    expect(recipeCard0).toBeInTheDocument();
+    const breakf = await screen.findByTestId('Ordinary Drink-category-filter');
+    expect(breakf).toBeInTheDocument();
+    act(() => {
+      userEvent.click(breakf);
+    });
+    const recipeCard1 = await screen.findByTestId(card);
+    expect(recipeCard1).toBeInTheDocument();
+  });
 });
