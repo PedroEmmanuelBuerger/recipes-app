@@ -13,9 +13,6 @@ function AppReceitasProvider({ children }) {
   const [buscaPorComida, setBuscaPorComida] = useState('');
   const [buscaPorBebida, setBuscaPorBebida] = useState('');
 
-  const [recipes, setRecipes] = useState([]);
-  const [categoriesRecipes, setCategoriesRecipes] = useState([]);
-
   const [title, setTitle] = useState('');
   const [SearchOk, setSearchOk] = useState(true);
   const [SearchBarInput, setSearchBarInput] = useState(false);
@@ -32,7 +29,6 @@ function AppReceitasProvider({ children }) {
       if (selected === 'ingrediente') { endpoint = `${urlComidasFilter}i=${value}`; }
       if (selected === 'nome') { endpoint = `${urlComidasSearch}s=${value}`; }
       if (selected === 'primeira-letra') { endpoint = `${urlComidasSearch}f=${value}`; }
-      console.log(endpoint);
       const response = await fetch(endpoint);
       const data = await response.json();
       setBuscaPorComida(data);
@@ -65,10 +61,6 @@ function AppReceitasProvider({ children }) {
     setSearchBarInput,
     textInput,
     setTextInput,
-    recipes,
-    setRecipes,
-    categoriesRecipes,
-    setCategoriesRecipes,
   }), [
     fetchAPI,
     selected,
@@ -78,8 +70,6 @@ function AppReceitasProvider({ children }) {
     SearchOk,
     SearchBarInput,
     textInput,
-    recipes,
-    categoriesRecipes,
   ]);
 
   return (

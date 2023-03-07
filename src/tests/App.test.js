@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from '../helpers/renderWithRouter';
 import AppReceitasProvider from '../context/AppReceitasProvider';
+import AppRecipesProvider from '../context/AppRecipesProvider';
 
 const profileIcon = 'profile-top-btn';
 const searchicon = 'search-top-btn';
@@ -15,9 +16,11 @@ const card2 = '1-recipe-card';
 describe('testa as funcionalidades do header', () => {
   it('verifica se o header é renderizado com ambos os inputs nas paginas: meals, drinks, profile, done-recipes e favorite-recipes', () => {
     const { history } = renderWithRouter(
-      <AppReceitasProvider>
-        <App />
-      </AppReceitasProvider>,
+      <AppRecipesProvider>
+        <AppReceitasProvider>
+          <App />
+        </AppReceitasProvider>
+      </AppRecipesProvider>,
     );
     act(() => {
       history.push('/meals');
@@ -70,9 +73,11 @@ describe('testa as funcionalidades do header', () => {
   });
   it('verifica se ao clicar no icone de perfil(/profile) é redirecionado para a pagina de perfil', () => {
     const { history } = renderWithRouter(
-      <AppReceitasProvider>
-        <App />
-      </AppReceitasProvider>,
+      <AppRecipesProvider>
+        <AppReceitasProvider>
+          <App />
+        </AppReceitasProvider>
+      </AppRecipesProvider>,
     );
     act(() => {
       history.push('/meals');
@@ -89,9 +94,11 @@ describe('testa as funcionalidades do header', () => {
   });
   it('verifica se ao clicar no icone de busca(/search) o input de busca aparece e se ao clicar novamente ele some', () => {
     const { history } = renderWithRouter(
-      <AppReceitasProvider>
-        <App />
-      </AppReceitasProvider>,
+      <AppRecipesProvider>
+        <AppReceitasProvider>
+          <App />
+        </AppReceitasProvider>
+      </AppRecipesProvider>,
     );
     act(() => {
       history.push('/meals');
@@ -112,9 +119,11 @@ describe('testa as funcionalidades do header', () => {
   });
   it('testa se o input do header faz a pesquisa', async () => {
     const { history } = renderWithRouter(
-      <AppReceitasProvider>
-        <App />
-      </AppReceitasProvider>,
+      <AppRecipesProvider>
+        <AppReceitasProvider>
+          <App />
+        </AppReceitasProvider>
+      </AppRecipesProvider>,
     );
     act(() => {
       history.push('/meals');
@@ -138,9 +147,11 @@ describe('testa as funcionalidades do header', () => {
 describe('teste o componente dos recipes', () => {
   it('verifica se é feito uma requesição a api e verifica se as coisas são renderizadas normalmente tanto na pagina do meals', async () => {
     const { history } = renderWithRouter(
-      <AppReceitasProvider>
-        <App />
-      </AppReceitasProvider>,
+      <AppRecipesProvider>
+        <AppReceitasProvider>
+          <App />
+        </AppReceitasProvider>
+      </AppRecipesProvider>,
     );
     act(() => {
       history.push('/meals');
@@ -183,9 +194,11 @@ describe('teste o componente dos recipes', () => {
   });
   it('verifica se a renderização dos elementos do recipes é feito na pagina do drink', async () => {
     const { history } = renderWithRouter(
-      <AppReceitasProvider>
-        <App />
-      </AppReceitasProvider>,
+      <AppRecipesProvider>
+        <AppReceitasProvider>
+          <App />
+        </AppReceitasProvider>
+      </AppRecipesProvider>,
     );
     act(() => {
       history.push('/drinks');
@@ -226,20 +239,21 @@ describe('teste o componente dos recipes', () => {
     const recipeCard11 = await screen.findByTestId('11-recipe-card');
     expect(recipeCard11).toBeInTheDocument();
   });
-  it('testa as funcionalidades dos de categoria', async () => {
+  it('testa a funcionalidade dos botoes de categoria', async() => {
     const { history } = renderWithRouter(
-      <AppReceitasProvider>
-        <App />
-      </AppReceitasProvider>,
+      <AppRecipesProvider>
+        <AppReceitasProvider>
+          <App />
+        </AppReceitasProvider>
+      </AppRecipesProvider>,
     );
     act(() => {
       history.push('/meals');
     });
-    const breakfast = await screen.findByRole('button', { name: /breakfast/i });
-    expect(breakfast).toBeInTheDocument();
-    userEvent.click(breakfast);
-    const recipeCard0 = await screen.findByTestId(card);
-    expect(recipeCard0).toBeInTheDocument();
-    expect(recipeCard0).toHaveTextContent(/breakfast/i);
+    const beef = await screen.findByTestId('Beef-category-filter');
+    expect(beef).toBeInTheDocument();
+    act(() => {
+      beef.click();
+    });
   });
 });

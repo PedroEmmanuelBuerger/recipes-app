@@ -1,58 +1,28 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import AppReceitasContext from '../context/AppReceitasContext';
+import AppRecipesContext from '../context/AppRecipesContext';
 
 export default function Recipes() {
   const history = useHistory();
-  const { recipes, setRecipes, categoriesRecipes,
-    setCategoriesRecipes } = useContext(AppReceitasContext);
 
-  const [withoutFilter, setwithoutFilterscat] = useState([]);
+  const { recipesMeal,
+    recipesDrink,
+    categoriesRecipesMeal,
+    categoriesRecipesDrink, filterByCategory,
+    filter, setFilter } = useContext(AppRecipesContext);
+
+  const [recipes, setRecipes] = useState([]);
+  const [categoriesRecipes, setCategoriesRecipes] = useState([]);
   const [toggled, setToggled] = useState(false);
-
-  const getRecipes = async () => {
-    const { location: { pathname } } = history;
-    const magicNumber = 12;
-    const UrlApi = pathname.includes('meals')
-      ? 'https://www.themealdb.com/api/json/v1/1/search.php?s='
-      : 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-    const result = await fetch(UrlApi)
-      .then((response) => response.json())
-      .then((data) => data.meals || data.drinks);
-    const firtsResults = result.slice(0, magicNumber);
-    setRecipes(firtsResults);
-    setwithoutFilterscat(firtsResults);
-  };
-
-  const getCategories = async () => {
-    const { location: { pathname } } = history;
-    const magicNumber = 5;
-    const UrlApi = pathname.includes('meals')
-      ? 'https://www.themealdb.com/api/json/v1/1/list.php?c=list'
-      : 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
-    const result = await fetch(UrlApi)
-      .then((response) => response.json())
-      .then((data) => data.meals || data.drinks);
-    const firtsResults = result.slice(0, magicNumber);
-    setCategoriesRecipes(firtsResults);
-  };
 
   const setCategoryFunc = async (category) => {
     const { location: { pathname } } = history;
-    const magicNumber = 12;
-    const UrlApi = pathname.includes('meals')
-      ? `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
-      : `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`;
-    const categoryApi = await fetch(UrlApi)
-      .then((response) => response.json())
-      .then((data) => data.meals || data.drinks);
-    const firtsResults = categoryApi.slice(0, magicNumber);
-    setRecipes(firtsResults);
+    await filterByCategory(category, pathname);
     setToggled(!toggled);
   };
 
   const removeFilters = () => {
-    setRecipes(withoutFilter);
+    setFilter([]);
     setToggled(!toggled);
   };
 
@@ -60,7 +30,7 @@ export default function Recipes() {
     if (!toggled) {
       return setCategoryFunc(category);
     }
-    return removeFilters();
+    removeFilters();
   };
 
   const getDetails = (recipe) => {
@@ -73,9 +43,18 @@ export default function Recipes() {
   };
 
   useEffect(() => {
-    getRecipes();
-    getCategories();
-  }, []);
+    const { location: { pathname } } = history;
+    if (pathname.includes('meals')) {
+      setRecipes(recipesMeal);
+      setCategoriesRecipes(categoriesRecipesMeal);
+    } else {
+      setRecipes(recipesDrink);
+      setCategoriesRecipes(categoriesRecipesDrink);
+    }
+    if (filter.length > 0) {
+      setRecipes(filter);
+    }
+  }, [recipesMeal, recipesDrink, filter, categoriesRecipesMeal, categoriesRecipesDrink]);
 
   return (
     <div>
@@ -85,7 +64,7 @@ export default function Recipes() {
       >
         All
       </button>
-      {categoriesRecipes.map((category, index) => (
+      {categoriesRecipes?.map((category, index) => (
         <button
           key={ index }
           data-testid={ `${category.strCategory}-category-filter` }
@@ -95,8 +74,10 @@ export default function Recipes() {
           {category.strCategory}
         </button>
       ))}
-      {recipes.map((recipe, index) => (
+      {recipes?.map((recipe, index) => (
         <div
+          aria-hidden="true"
+          onClick={ () => getDetails(recipe) }
           key={ index }
           data-testid={ `${index}-recipe-card` }
         >
@@ -104,8 +85,6 @@ export default function Recipes() {
             {recipe.strMeal || recipe.strDrink}
           </h2>
           <img
-            aria-hidden="true"
-            onClick={ () => getDetails(recipe) }
             data-testid={ `${index}-card-img` }
             src={ recipe.strMealThumb || recipe.strDrinkThumb }
             alt={ recipe.strMeal || recipe.strDrink }
