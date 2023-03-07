@@ -384,12 +384,16 @@ describe('teste o componente dos recipes', () => {
 
 describe('testa as funcionalidades do footer', () => {
   it('verifica se o footer é renderizado corretamente nas paginas: meals, drinks e profile', () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouter(
+      <AppRecipesProvider>
+        <AppReceitasProvider>
+          <App />
+        </AppReceitasProvider>
+      </AppRecipesProvider>,
+    );
     act(() => {
       history.push('/meals');
     });
-    const { pathname } = history.location;
-    expect(pathname).toBe('/meals');
     const drinkIcon1 = screen.getByTestId(drinkIcon);
     expect(drinkIcon1).toBeInTheDocument();
     const mealsIcon1 = screen.getByTestId(mealsIcon);
@@ -415,28 +419,36 @@ describe('testa as funcionalidades do footer', () => {
   });
 
   it('verifica se ao clicar no icone de drinks(/drinks) é redirecionado para a pagina de drinks', () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouter(
+      <AppRecipesProvider>
+        <AppReceitasProvider>
+          <App />
+        </AppReceitasProvider>
+      </AppRecipesProvider>,
+    );
     act(() => {
       history.push('/meals');
     });
-    const { pathname } = history.location;
-    expect(pathname).toBe('/meals');
     const drinkIcon1 = screen.getByTestId(drinkIcon);
     expect(drinkIcon1).toBeInTheDocument();
     act(() => {
       drinkIcon1.click();
     });
     const { pathname: pathname2 } = history.location;
-    expect(pathname2).toBe('/drink');
+    expect(pathname2).toBe('/drinks');
   });
 
   it('verifica se ao clicar no icone de meals(/meals) é redirecionado para a pagina de meals', () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouter(
+      <AppRecipesProvider>
+        <AppReceitasProvider>
+          <App />
+        </AppReceitasProvider>
+      </AppRecipesProvider>,
+    );
     act(() => {
       history.push('/drinks');
     });
-    const { pathname } = history.location;
-    expect(pathname).toBe('/drinks');
     const mealsIcon1 = screen.getByTestId(mealsIcon);
     expect(mealsIcon1).toBeInTheDocument();
     act(() => {

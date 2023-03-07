@@ -10,6 +10,7 @@ import DrinkDetails from './pages/DrinkDetails';
 import MealsDetails from './pages/MealsDetails';
 import DrinkDetailsinProgress from './pages/DrinkDetailsinProgress';
 import MealsDetailsInProgress from './pages/MealsDetailsInProgress';
+import './App.css';
 
 function App() {
   return (
