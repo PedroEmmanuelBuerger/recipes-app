@@ -11,6 +11,7 @@ function AppRecipesProvider({ children }) {
   const [categoriesRecipesMeal, setCategoriesRecipesMeal] = useState([]);
   const [categoriesRecipesDrink, setCategoriesRecipesDrink] = useState([]);
   const [filter, setFilter] = useState([]);
+  const [searched, setSearched] = useState(false);
 
   const ApiMeals = async () => {
     const result = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
@@ -74,7 +75,10 @@ function AppRecipesProvider({ children }) {
     filterByCategory,
     filter,
     setFilter,
-  }), [recipesMeal, recipesDrink, categoriesRecipesDrink, categoriesRecipesMeal, filter]);
+    searched,
+    setSearched,
+  }), [recipesMeal, recipesDrink, categoriesRecipesDrink,
+    categoriesRecipesMeal, filter, searched]);
 
   return (
     <AppRecipesContext.Provider value={ context }>

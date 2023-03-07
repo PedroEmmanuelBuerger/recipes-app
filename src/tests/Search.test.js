@@ -1,10 +1,11 @@
 import React from 'react';
-import { act, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
-import renderWithRouter from '../helpers/renderWithRouter';
-
 import App from '../App';
+import renderWithRouter from '../helpers/renderWithRouter';
 import AppReceitasProvider from '../context/AppReceitasProvider';
+import AppRecipesProvider from '../context/AppRecipesProvider';
 
 const searchTopBTN = 'search-top-btn';
 const execSearchBTN = 'exec-search-btn';
@@ -13,9 +14,11 @@ const searchInputID = 'search-input';
 describe('Testa as funcionalidades do SearchBar', () => {
   it('Testa se o título e inputs estão na tela', () => {
     const { history } = renderWithRouter(
-      <AppReceitasProvider>
-        <App />
-      </AppReceitasProvider>,
+      <AppRecipesProvider>
+        <AppReceitasProvider>
+          <App />
+        </AppReceitasProvider>
+      </AppRecipesProvider>,
     );
     act(() => {
       history.push('/meals');
@@ -37,9 +40,11 @@ describe('Testa as funcionalidades do SearchBar', () => {
 
   it('Testa a funcionalidade do radio button Ingredient', () => {
     const { history } = renderWithRouter(
-      <AppReceitasProvider>
-        <App />
-      </AppReceitasProvider>,
+      <AppRecipesProvider>
+        <AppReceitasProvider>
+          <App />
+        </AppReceitasProvider>
+      </AppRecipesProvider>,
     );
     act(() => {
       history.push('/meals');
@@ -62,9 +67,11 @@ describe('Testa as funcionalidades do SearchBar', () => {
 
   it('Testa a funcionalidade do radio button Name', () => {
     const { history } = renderWithRouter(
-      <AppReceitasProvider>
-        <App />
-      </AppReceitasProvider>,
+      <AppRecipesProvider>
+        <AppReceitasProvider>
+          <App />
+        </AppReceitasProvider>
+      </AppRecipesProvider>,
     );
     act(() => {
       history.push('/meals');
@@ -87,9 +94,11 @@ describe('Testa as funcionalidades do SearchBar', () => {
 
   it('Testa a funcionalidade do radio button First letter', () => {
     const { history } = renderWithRouter(
-      <AppReceitasProvider>
-        <App />
-      </AppReceitasProvider>,
+      <AppRecipesProvider>
+        <AppReceitasProvider>
+          <App />
+        </AppReceitasProvider>
+      </AppRecipesProvider>,
     );
     act(() => {
       history.push('/meals');
