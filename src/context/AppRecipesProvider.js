@@ -60,13 +60,11 @@ function AppRecipesProvider({ children }) {
     if (pathname.includes('meals')) {
       const result = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
       const data = await result.json();
-      setDetailRecipe(data.meals[0]);
+      return setDetailRecipe(data.meals[0]) && setIgredients(igredientsList);
     }
-    if (pathname.includes('drinks')) {
-      const result = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
-      const data = await result.json();
-      setDetailRecipe(data.drinks[0]);
-    }
+    const result = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+    const data = await result.json();
+    setDetailRecipe(data.drinks[0]);
   };
 
   useEffect(() => {
@@ -90,7 +88,8 @@ function AppRecipesProvider({ children }) {
     setFilter,
     RecipesDetailsApi,
     detailRecipe,
-  }), [recipesMeal, recipesDrink, categoriesRecipesDrink, categoriesRecipesMeal, filter]);
+  }), [recipesMeal, recipesDrink, categoriesRecipesDrink, categoriesRecipesMeal, filter,
+    detailRecipe]);
 
   return (
     <AppRecipesContext.Provider value={ context }>

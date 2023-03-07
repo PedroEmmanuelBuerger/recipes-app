@@ -25,7 +25,7 @@ export default function Recipes() {
 
   const toggle = (category) => setCategoryFunc(category);
 
-  const getDetails = (recipe) => {
+  const getDetails = async (recipe) => {
     const id = recipe.idMeal || recipe.idDrink;
     const { location: { pathname } } = history;
     const path = pathname.includes('meals')
