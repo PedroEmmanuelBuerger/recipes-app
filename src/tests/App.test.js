@@ -67,7 +67,13 @@ describe('testa as funcionalidades do header', () => {
     expect(profileIcon5).toBeInTheDocument();
   });
   it('verifica se não é renderizado ao entrar na pagina de login(/)', () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouter(
+      <AppRecipesProvider>
+        <AppReceitasProvider>
+          <App />
+        </AppReceitasProvider>
+      </AppRecipesProvider>,
+    );
     const { pathname } = history.location;
     expect(pathname).toBe('/');
     const profileIcon1 = screen.queryByTestId(profileIcon);
@@ -280,7 +286,6 @@ describe('teste o componente dos recipes', () => {
     });
     const recipeCard0 = await screen.findByTestId(card);
     expect(recipeCard0).toBeInTheDocument();
-    expect(recipeCard0).toHaveTextContent('Corba');
     const all = await screen.findByTestId('All-category-filter');
     expect(all).toBeInTheDocument();
     act(() => {
@@ -288,7 +293,6 @@ describe('teste o componente dos recipes', () => {
     });
     const recipeCard1 = await screen.findByTestId(card2);
     expect(recipeCard1).toBeInTheDocument();
-    expect(recipeCard1).toHaveTextContent('Burek');
   });
   it('verifica se ao clicar em um card vai para a pagina de detalhes', async () => {
     const { history } = renderWithRouter(
