@@ -1,14 +1,17 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import shareIcon from '../images/shareIcon.svg';
 import AppRecipesContext from '../context/AppRecipesContext';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 export default function Buttons() {
   const { detailRecipe } = useContext(AppRecipesContext);
   const history = useHistory();
   const { location: { pathname } } = history;
 
+  const [icon, setIcon] = useState('');
   const [share, setShare] = useState(false);
 
   const starRecipeBtn = () => {
@@ -41,11 +44,25 @@ export default function Buttons() {
       name,
       image,
     };
-    console.log(obj);
+
     const oldFavorites = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
     const newFavorites = [...oldFavorites, obj];
     localStorage.setItem('favoriteRecipes', JSON.stringify(newFavorites));
+    if (icon === whiteHeartIcon) {
+      return setIcon(blackHeartIcon);
+    }
+    return setIcon(whiteHeartIcon);
   };
+
+  useEffect(() => {
+    const id = pathname.split('/')[2];
+    const favorites = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+    const isFavorite = favorites.some((item) => item.id === id);
+    if (isFavorite) {
+      return setIcon(blackHeartIcon);
+    }
+    return setIcon(whiteHeartIcon);
+  }, []);
 
   return (
     <div>
@@ -66,8 +83,8 @@ export default function Buttons() {
       <button data-testid="share-btn" onClick={ shareRecipeBtn }>
         <img src={ shareIcon } alt="share" />
       </button>
-      <button data-testid="favorite-btn" onClick={ saveFavorites }>
-        favorite recipe
+      <button onClick={ saveFavorites }>
+        <img src={ icon } alt="favorite" data-testid="favorite-btn" />
       </button>
     </div>
   );
