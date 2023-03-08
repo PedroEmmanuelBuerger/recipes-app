@@ -4,6 +4,7 @@ import AppRecipesContext from './AppRecipesContext';
 
 const magic12 = 12;
 const magic5 = 5;
+const magic6 = 6;
 
 function AppRecipesProvider({ children }) {
   const [recipesMeal, setRecipesMeal] = useState([]);
@@ -12,18 +13,25 @@ function AppRecipesProvider({ children }) {
   const [categoriesRecipesDrink, setCategoriesRecipesDrink] = useState([]);
   const [filter, setFilter] = useState([]);
   const [detailRecipe, setDetailRecipe] = useState([]);
+  const [mealsRecomaendation, setMealsRecomendation] = useState([]);
+  const [drinksRecomendation, setDrinksRecomendation] = useState([]);
 
   const ApiMeals = async () => {
     const result = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
     const data = await result.json();
+    console.log(data);
     const with12 = data.meals.slice(0, magic12);
     setRecipesMeal(with12);
+    const recomandationsWith6 = data.meals.slice(0, magic6);
+    setMealsRecomendation(recomandationsWith6);
   };
   const ApiDrinks = async () => {
     const result = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
     const data = await result.json();
     const with12 = data.drinks.slice(0, magic12);
     setRecipesDrink(with12);
+    const recomandationsWith6 = data.drinks.slice(0, magic6);
+    setDrinksRecomendation(recomandationsWith6);
   };
 
   const ApiMealsCategory = async () => {
@@ -88,8 +96,10 @@ function AppRecipesProvider({ children }) {
     setFilter,
     RecipesDetailsApi,
     detailRecipe,
+    mealsRecomaendation,
+    drinksRecomendation,
   }), [recipesMeal, recipesDrink, categoriesRecipesDrink, categoriesRecipesMeal, filter,
-    detailRecipe]);
+    detailRecipe, mealsRecomaendation, drinksRecomendation]);
 
   return (
     <AppRecipesContext.Provider value={ context }>

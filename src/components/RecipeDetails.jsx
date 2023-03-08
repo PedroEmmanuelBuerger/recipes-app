@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import AppRecipesContext from '../context/AppRecipesContext';
+import RecomandationCard from './RecomandationCard';
 
 export default function RecipeDetails() {
   const history = useHistory();
@@ -60,6 +61,7 @@ export default function RecipeDetails() {
           />
         )}
       </div>
+      <RecomandationCard />
     </div>
   );
 }
