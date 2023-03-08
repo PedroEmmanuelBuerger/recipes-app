@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import AppRecipesContext from '../context/AppRecipesContext';
 import RecomandationCard from './RecomandationCard';
+import Buttons from './Buttons';
 
 export default function RecipeDetails() {
   const history = useHistory();
@@ -62,13 +63,7 @@ export default function RecipeDetails() {
         )}
       </div>
       <RecomandationCard />
-      <button
-        type="button"
-        data-testid="start-recipe-btn"
-        className="startButton"
-      >
-        Iniciar Receita
-      </button>
+      <Buttons />
     </div>
   );
 }

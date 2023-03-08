@@ -18,7 +18,7 @@ const responsive = {
     items: 2,
   },
   mobile: {
-    breakpoint: { max: 463, min: 0 },
+    breakpoint: { max: 464, min: 0 },
     items: 2,
   },
 };
@@ -39,20 +39,24 @@ export default function RecomandationCard() {
   }, [drinksRecomendation, mealsRecomaendation]);
 
   return (
-    <div>
-      <Carousel
-        responsive={ responsive }
-        slidesToSlide={ 2 }
-      >
-        {recomandation.map((item, index) => (
-          <div key={ index } data-testid={ `${index}-recommendation-card` }>
-            <img src={ item.strDrinkThumb || item.strMealThumb } alt="recomandations" />
-            <h3 data-testid={ `${index}-recommendation-title` }>
-              {item.strDrink || item.strMeal }
-            </h3>
-          </div>
-        ))}
-      </Carousel>
-    </div>
+    <Carousel
+      responsive={ responsive }
+      slidesToSlide={ 2 }
+      swipeable={ false }
+      draggable={ false }
+    >
+      {recomandation?.map((item, index) => (
+        <div key={ index } data-testid={ `${index}-recommendation-card` }>
+          <p data-testid={ `${index}-recommendation-title` }>
+            {item.strMeal || item.strDrink }
+          </p>
+          <img
+            src={ item.strMealThumb || item.strDrinkThumb }
+            style={ { maxWidth: 100 } }
+            alt="recomandations"
+          />
+        </div>
+      ))}
+    </Carousel>
   );
 }
