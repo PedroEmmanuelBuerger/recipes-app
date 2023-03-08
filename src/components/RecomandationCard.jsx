@@ -1,24 +1,14 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import Carousel from 'react-multi-carousel';
+import AliceCarousel from 'react-alice-carousel';
 import AppRecipesContext from '../context/AppRecipesContext';
-import 'react-multi-carousel/lib/styles.css';
+import 'react-alice-carousel/lib/alice-carousel.css';
 
 const responsive = {
-  superLargeDesktop: {
-    breakpoint: { max: 4000, min: 3000 },
+  0: {
     items: 2,
   },
-  desktop: {
-    breakpoint: { max: 3000, min: 1024 },
-    items: 2,
-  },
-  tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 2,
-  },
-  mobile: {
-    breakpoint: { max: 464, min: 0 },
+  1024: {
     items: 2,
   },
 };
@@ -33,30 +23,22 @@ export default function RecomandationCard() {
 
   useEffect(() => {
     if (pathname.includes('meals')) {
+      console.log(recomandation);
       return setRecomandation(drinksRecomendation);
     }
     return setRecomandation(mealsRecomaendation);
   }, [drinksRecomendation, mealsRecomaendation]);
 
   return (
-    <Carousel
-      responsive={ responsive }
-      slidesToSlide={ 2 }
-      swipeable={ false }
-      draggable={ false }
-    >
-      {recomandation?.map((item, index) => (
+    <AliceCarousel items={ recomandation } responsive={ responsive }>
+      {recomandation.map((item, index) => (
         <div key={ index } data-testid={ `${index}-recommendation-card` }>
-          <p data-testid={ `${index}-recommendation-title` }>
-            {item.strMeal || item.strDrink }
-          </p>
-          <img
-            src={ item.strMealThumb || item.strDrinkThumb }
-            style={ { maxWidth: 150 } }
-            alt="recomandations"
-          />
+          <img src={ item.strDrinkThumb || item.strMealThumb } alt="recomandation" />
+          <h2 data-testid={ `${index}-recommendation-title` }>
+            {item.strDrink || item.strMeal}
+          </h2>
         </div>
       ))}
-    </Carousel>
+    </AliceCarousel>
   );
 }
