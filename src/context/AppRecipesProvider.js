@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import AppRecipesContext from './AppRecipesContext';
-//
 
 const magic12 = 12;
 const magic5 = 5;
