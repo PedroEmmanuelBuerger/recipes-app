@@ -99,12 +99,10 @@ function AppRecipesProvider({ children }) {
     detailRecipe,
     mealsRecomaendation,
     drinksRecomendation,
-  }), [recipesMeal, recipesDrink, categoriesRecipesDrink, categoriesRecipesMeal, filter,
-    detailRecipe, mealsRecomaendation, drinksRecomendation]);
     searched,
     setSearched,
-  }), [recipesMeal, recipesDrink, categoriesRecipesDrink,
-    categoriesRecipesMeal, filter, searched]);
+  }), [recipesMeal, recipesDrink, categoriesRecipesDrink, categoriesRecipesMeal, filter,
+    detailRecipe, mealsRecomaendation, drinksRecomendation, searched]);
 
   return (
     <AppRecipesContext.Provider value={ context }>
