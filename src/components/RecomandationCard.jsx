@@ -1,6 +1,27 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import Carousel from 'react-multi-carousel';
 import AppRecipesContext from '../context/AppRecipesContext';
+import 'react-multi-carousel/lib/styles.css';
+
+const responsive = {
+  superLargeDesktop: {
+    breakpoint: { max: 4000, min: 3000 },
+    items: 2,
+  },
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 2,
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2,
+  },
+  mobile: {
+    breakpoint: { max: 463, min: 0 },
+    items: 2,
+  },
+};
 
 export default function RecomandationCard() {
   const history = useHistory();
@@ -19,18 +40,19 @@ export default function RecomandationCard() {
 
   return (
     <div>
-      {recomandation.map((item, index) => (
-        <div key={ index }>
-          <img
-            data-testid={ `${index}-recomendation-card` }
-            src={ item.strDrinkThumb || item.strMealThumb }
-            alt="recomendation"
-          />
-          <p data-testid={ `${index}-recomendation-title` }>
-            {item.strDrink || item.strMeal}
-          </p>
-        </div>
-      ))}
+      <Carousel
+        responsive={ responsive }
+        slidesToSlide={ 2 }
+      >
+        {recomandation.map((item, index) => (
+          <div key={ index } data-testid={ `${index}-recommendation-card` }>
+            <img src={ item.strDrinkThumb || item.strMealThumb } alt="recomandations" />
+            <h3 data-testid={ `${index}-recommendation-title` }>
+              {item.strDrink || item.strMeal }
+            </h3>
+          </div>
+        ))}
+      </Carousel>
     </div>
   );
 }

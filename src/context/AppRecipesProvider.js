@@ -19,7 +19,6 @@ function AppRecipesProvider({ children }) {
   const ApiMeals = async () => {
     const result = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
     const data = await result.json();
-    console.log(data);
     const with12 = data.meals.slice(0, magic12);
     setRecipesMeal(with12);
     const recomandationsWith6 = data.meals.slice(0, magic6);

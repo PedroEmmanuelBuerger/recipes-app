@@ -62,6 +62,13 @@ export default function RecipeDetails() {
         )}
       </div>
       <RecomandationCard />
+      <button
+        type="button"
+        data-testid="start-recipe-btn"
+        className="startButton"
+      >
+        Iniciar Receita
+      </button>
     </div>
   );
 }
