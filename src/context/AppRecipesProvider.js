@@ -4,6 +4,7 @@ import AppRecipesContext from './AppRecipesContext';
 
 const magic12 = 12;
 const magic5 = 5;
+const magic6 = 6;
 
 function AppRecipesProvider({ children }) {
   const [recipesMeal, setRecipesMeal] = useState([]);
@@ -11,6 +12,9 @@ function AppRecipesProvider({ children }) {
   const [categoriesRecipesMeal, setCategoriesRecipesMeal] = useState([]);
   const [categoriesRecipesDrink, setCategoriesRecipesDrink] = useState([]);
   const [filter, setFilter] = useState([]);
+  const [detailRecipe, setDetailRecipe] = useState([]);
+  const [mealsRecomaendation, setMealsRecomendation] = useState([]);
+  const [drinksRecomendation, setDrinksRecomendation] = useState([]);
   const [searched, setSearched] = useState(false);
 
   const ApiMeals = async () => {
@@ -18,12 +22,16 @@ function AppRecipesProvider({ children }) {
     const data = await result.json();
     const with12 = data.meals.slice(0, magic12);
     setRecipesMeal(with12);
+    const recomandationsWith6 = data.meals.slice(0, magic6);
+    setMealsRecomendation(recomandationsWith6);
   };
   const ApiDrinks = async () => {
     const result = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
     const data = await result.json();
     const with12 = data.drinks.slice(0, magic12);
     setRecipesDrink(with12);
+    const recomandationsWith6 = data.drinks.slice(0, magic6);
+    setDrinksRecomendation(recomandationsWith6);
   };
 
   const ApiMealsCategory = async () => {
@@ -56,6 +64,17 @@ function AppRecipesProvider({ children }) {
     }
   };
 
+  const RecipesDetailsApi = async (id, pathname) => {
+    if (pathname.includes('meals')) {
+      const result = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+      const data = await result.json();
+      return setDetailRecipe(data.meals[0]) && setIgredients(igredientsList);
+    }
+    const result = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+    const data = await result.json();
+    setDetailRecipe(data.drinks[0]);
+  };
+
   useEffect(() => {
     ApiMeals();
     ApiDrinks();
@@ -75,10 +94,15 @@ function AppRecipesProvider({ children }) {
     filterByCategory,
     filter,
     setFilter,
+
+    RecipesDetailsApi,
+    detailRecipe,
+    mealsRecomaendation,
+    drinksRecomendation,
     searched,
     setSearched,
-  }), [recipesMeal, recipesDrink, categoriesRecipesDrink,
-    categoriesRecipesMeal, filter, searched]);
+  }), [recipesMeal, recipesDrink, categoriesRecipesDrink, categoriesRecipesMeal, filter,
+    detailRecipe, mealsRecomaendation, drinksRecomendation, searched]);
 
   return (
     <AppRecipesContext.Provider value={ context }>
