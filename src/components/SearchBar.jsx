@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import AppReceitasContext from '../context/AppReceitasContext';
+import AppRecipesContext from '../context/AppRecipesContext';
 
 function SearchBar() {
   const {
@@ -10,8 +11,11 @@ function SearchBar() {
     setTextInput,
   } = useContext(AppReceitasContext);
 
+  const { setSearched } = useContext(AppRecipesContext);
+
   const handleClick = async () => {
     await fetchAPI(textInput);
+    setSearched(true);
   };
 
   const verifica = () => {

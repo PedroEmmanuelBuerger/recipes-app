@@ -1,5 +1,5 @@
 import { createContext } from 'react';
 
-const AppRecipesProvider = createContext();
+const AppRecipesContext = createContext();
 
-export default AppRecipesProvider;
+export default AppRecipesContext;
