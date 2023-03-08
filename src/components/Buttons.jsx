@@ -28,30 +28,31 @@ export default function Buttons() {
   };
 
   const saveFavorites = () => {
-    const id = detailRecipe.idMeal || detailRecipe.idDrink;
-    const type = pathname.includes('meals') ? 'meal' : 'drink';
-    const nationality = detailRecipe.strArea || '';
-    const category = detailRecipe.strCategory;
-    const alcoholicOrNot = detailRecipe.strAlcoholic || '';
-    const name = detailRecipe.strMeal || detailRecipe.strDrink;
-    const image = detailRecipe.strMealThumb || detailRecipe.strDrinkThumb;
-    const obj = {
-      id,
-      type,
-      nationality,
-      category,
-      alcoholicOrNot,
-      name,
-      image,
-    };
-
     const oldFavorites = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
-    const newFavorites = [...oldFavorites, obj];
-    localStorage.setItem('favoriteRecipes', JSON.stringify(newFavorites));
     if (icon === whiteHeartIcon) {
-      return setIcon(blackHeartIcon);
+      setIcon(blackHeartIcon);
+      const id = detailRecipe.idMeal || detailRecipe.idDrink;
+      const type = pathname.includes('meals') ? 'meal' : 'drink';
+      const nationality = detailRecipe.strArea || '';
+      const category = detailRecipe.strCategory;
+      const alcoholicOrNot = detailRecipe.strAlcoholic || '';
+      const name = detailRecipe.strMeal || detailRecipe.strDrink;
+      const image = detailRecipe.strMealThumb || detailRecipe.strDrinkThumb;
+      const obj = {
+        id,
+        type,
+        nationality,
+        category,
+        alcoholicOrNot,
+        name,
+        image,
+      };
+      const newFavorites = [...oldFavorites, obj];
+      return localStorage.setItem('favoriteRecipes', JSON.stringify(newFavorites));
     }
-    return setIcon(whiteHeartIcon);
+    setIcon(whiteHeartIcon);
+    const newFavorites = oldFavorites.filter((item) => item.id !== detailRecipe.idMeal);
+    return localStorage.setItem('favoriteRecipes', JSON.stringify(newFavorites));
   };
 
   useEffect(() => {
@@ -65,7 +66,7 @@ export default function Buttons() {
   }, []);
 
   return (
-    <div>
+    <div style={ { padding: 30 } }>
       {share && <h2>Link copied!!</h2>}
       <button
         type="button"
@@ -74,11 +75,6 @@ export default function Buttons() {
         onClick={ starRecipeBtn }
       >
         Start Recipe
-      </button>
-      <button
-        type="button"
-      >
-        Continue Recipe
       </button>
       <button data-testid="share-btn" onClick={ shareRecipeBtn }>
         <img src={ shareIcon } alt="share" />
