@@ -27,7 +27,24 @@ export default function Buttons() {
   const saveFavorites = () => {
     const id = detailRecipe.idMeal || detailRecipe.idDrink;
     const type = pathname.includes('meals') ? 'meal' : 'drink';
-    const nationality = detailRecipe.strArea || detailRecipe.strAlcoholic;
+    const nationality = detailRecipe.strArea || '';
+    const category = detailRecipe.strCategory;
+    const alcoholicOrNot = detailRecipe.strAlcoholic || '';
+    const name = detailRecipe.strMeal || detailRecipe.strDrink;
+    const image = detailRecipe.strMealThumb || detailRecipe.strDrinkThumb;
+    const obj = {
+      id,
+      type,
+      nationality,
+      category,
+      alcoholicOrNot,
+      name,
+      image,
+    };
+    console.log(obj);
+    const oldFavorites = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+    const newFavorites = [...oldFavorites, obj];
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newFavorites));
   };
 
   return (

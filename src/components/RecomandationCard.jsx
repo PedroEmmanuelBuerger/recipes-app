@@ -23,7 +23,6 @@ export default function RecomandationCard() {
 
   useEffect(() => {
     if (pathname.includes('meals')) {
-      console.log(recomandation);
       return setRecomandation(drinksRecomendation);
     }
     return setRecomandation(mealsRecomaendation);
