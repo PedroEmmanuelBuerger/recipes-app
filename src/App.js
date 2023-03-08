@@ -16,11 +16,11 @@ function App() {
   return (
     <Switch>
       <Route
-        path="/drinks/:id-da-receita/in-progress"
+        path="/drinks/:id/in-progress"
         component={ DrinkDetailsinProgress }
       />
       <Route
-        path="/meals/:id-da-receita/in-progress"
+        path="/meals/:id/in-progress"
         component={ MealsDetailsInProgress }
       />
       <Route path="/drinks/:id" component={ DrinkDetails } />

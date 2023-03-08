@@ -52,7 +52,7 @@ export default function RecomandationCard() {
           </p>
           <img
             src={ item.strMealThumb || item.strDrinkThumb }
-            style={ { maxWidth: 100 } }
+            style={ { maxWidth: 150 } }
             alt="recomandations"
           />
         </div>
