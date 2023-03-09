@@ -6,8 +6,6 @@ import shareIcon from '../images/shareIcon.svg';
 // Requisito 44 - Implementando os elementos na tela de receitas
 export default function DoneRecipes() {
   const history = useHistory();
-  const path = history.location.pathname;
-  console.log(path);
   const [receitasFeitas, setReceitasFeitas] = useState([]);
 
   const informs = [{
