@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
 
 // Requisito 44 - Implementando os elementos na tela de receitas
+// O useHistory fornece acesso à history que você pode usar para navegar
 export default function DoneRecipes() {
   const history = useHistory();
   const path = history.location.pathname;
@@ -18,7 +19,7 @@ export default function DoneRecipes() {
     alcoholicOrNot: 'alcoholic',
     name: 'Spicy Arrabiata Penne',
     image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
-    doneDate: ['22/09/2020'],
+    doneDate: ['23/06/2020'],
     tags: ['Pasta', 'Curry'],
 
   }, {
@@ -29,7 +30,7 @@ export default function DoneRecipes() {
     alcoholicOrNot: 'alcoholic',
     name: 'Spicy Arrabiata Penne',
     image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
-    doneDate: ['22/09/2020'],
+    doneDate: ['23/06/2020'],
     tags: ['Pasta', 'Curry'],
   }];
 
@@ -39,6 +40,7 @@ export default function DoneRecipes() {
 
   return (
     <div>
+      <Header />
       <Header pathName={ history.location.pathname } searchIcon={ false } />
       <section>
         <button
@@ -78,12 +80,24 @@ export default function DoneRecipes() {
             data-testid={ `${index}-horizontal-image` }
           />
 
-          <p data-testid={ `${index}-horizontal-name` }>{receita.name}</p>
-          <p data-testid={ `${index}-horizontal-top-text` }>
-            { receita.type === 'meals'
-              ? `${receita.category} - ${receita.nationality}`
-              : receita.alcoholicOrNot }
-          </p>
+          <h5 data-testid={ `${index}-horizontal-top-text` }>
+            {' '}
+            {`${receita.nationality} -
+            ${receita.category}`}
+
+          </h5>
+
+          <h5 data-testid={ `${index}-horizontal-name` }>
+
+            {receita.name}
+
+          </h5>
+
+          {/* { receita.type === 'meals' */}
+          {/* ? `${receita.category} - ${receita.nationality}`
+              : `${receita.alcoholicOrNot}`  */}
+
+          {/* </p> */}
           {console.log(receita)}
 
           <p data-testid={ `${index}-horizontal-done-date` }>
@@ -101,12 +115,14 @@ export default function DoneRecipes() {
               </span>))
             : null }
 
-          <button
-            data-testid={ `${index}-horizontal-share-btn` }
-            onClick={ () => { console.log('click'); } }
-          >
+          <button>
 
-            <img src={ shareIcon } alt="" />
+            Compartilhar
+            <img
+              src={ shareIcon }
+              alt="imagem ícone"
+              data-testid={ `${index}-horizontal-share-btn` }
+            />
           </button>
 
           <button
