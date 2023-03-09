@@ -8,8 +8,7 @@ import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import DrinkDetails from './pages/DrinkDetails';
 import MealsDetails from './pages/MealsDetails';
-import DrinkDetailsinProgress from './pages/DrinkDetailsinProgress';
-import MealsDetailsInProgress from './pages/MealsDetailsInProgress';
+import RecipeInProgress from './pages/RecipeInProgress';
 import './App.css';
 
 function App() {
@@ -17,11 +16,11 @@ function App() {
     <Switch>
       <Route
         path="/drinks/:id/in-progress"
-        component={ DrinkDetailsinProgress }
+        component={ RecipeInProgress }
       />
       <Route
         path="/meals/:id/in-progress"
-        component={ MealsDetailsInProgress }
+        component={ RecipeInProgress }
       />
       <Route path="/drinks/:id" component={ DrinkDetails } />
       <Route path="/meals/:id" component={ MealsDetails } />
