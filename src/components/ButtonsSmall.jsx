@@ -15,7 +15,9 @@ export default function Buttons() {
   const [share, setShare] = useState(false);
 
   const shareRecipeBtn = () => {
-    copy(`http://localhost:3000${pathname}`);
+    const url = (`http://localhost:3000${pathname}`);
+    const urlWithoutInPRogress = url.replace('/in-progress', '');
+    copy(urlWithoutInPRogress);
     setShare(true);
   };
 
@@ -59,7 +61,7 @@ export default function Buttons() {
 
   return (
     <div style={ { padding: 30 } }>
-      {share && <h2>Link copied!!</h2>}
+      {share && <h2>Link copied!</h2>}
       <button data-testid="share-btn" onClick={ shareRecipeBtn }>
         <img src={ shareIcon } alt="share" />
       </button>

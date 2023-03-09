@@ -65,14 +65,25 @@ function AppRecipesProvider({ children }) {
   };
 
   const RecipesDetailsApi = async (id, pathname) => {
+    if (localStorage.getItem('mealsProgess')) {
+      const data = JSON.parse(localStorage.getItem('mealsProgess'));
+      return setDetailRecipe(data);
+    }
+    if (localStorage.getItem('cocktailsProgess')) {
+      const data = JSON.parse(localStorage.getItem('cocktailsProgess'));
+      return setDetailRecipe(data);
+    }
     if (pathname.includes('meals')) {
       const result = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
       const data = await result.json();
-      return setDetailRecipe(data.meals[0]) && setIgredients(igredientsList);
+      setDetailRecipe(data.meals[0]);
+      localStorage.setItem('mealsProgess', JSON.stringify(data.meals[0]));
+    } else {
+      const result = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+      const data = await result.json();
+      setDetailRecipe(data.drinks[0]);
+      localStorage.setItem('cocktailsProgess', JSON.stringify(data.drinks[0]));
     }
-    const result = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
-    const data = await result.json();
-    setDetailRecipe(data.drinks[0]);
   };
 
   useEffect(() => {
