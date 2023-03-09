@@ -1,6 +1,7 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo,  useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { fetchApiComidas, fetchApiBebidas } from '../helpers/fetchApi';
 import AppReceitasContext from './AppReceitasContext';
 
 function AppReceitasProvider({ children }) {
@@ -12,6 +13,26 @@ function AppReceitasProvider({ children }) {
 
   const [buscaPorComida, setBuscaPorComida] = useState('');
   const [buscaPorBebida, setBuscaPorBebida] = useState('');
+
+  // Implementando lógica de armazenamento de e-mail e senha(LOGIN)
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+
+  // Implementando lógica de habilitação do botão Entrar(LOGIN)
+  const [habilitarDesabilitar, setHabilitarDesabilitar] = useState(true);
+  const verificaEmaileSenha = () => {
+    const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+$/i;
+    const verifyEmail = regex.test(email);
+    const minCharacters = 6;
+    if (verifyEmail && senha.length > minCharacters) {
+      setHabilitarDesabilitar(false);
+    } else {
+      setHabilitarDesabilitar(true);
+    }
+    return habilitarDesabilitar;
+  };
+  useEffect(() => { verificaEmaileSenha(); }, [email, senha]);
+
   const [title, setTitle] = useState('');
   const [SearchOk, setSearchOk] = useState(true);
   const [SearchBarInput, setSearchBarInput] = useState(false);
@@ -50,6 +71,15 @@ function AppReceitasProvider({ children }) {
     setSelected,
     buscaPorBebida,
     setBuscaPorBebida,
+    // LOGIN
+    email,
+    setEmail,
+    senha,
+    setSenha,
+    habilitarDesabilitar,
+    setHabilitarDesabilitar,
+    // LOGIN
+  }), [
     buscaPorComida,
     setBuscaPorComida,
     title,
@@ -64,6 +94,13 @@ function AppReceitasProvider({ children }) {
     fetchAPI,
     selected,
     buscaPorBebida,
+    setBuscaPorBebida,
+    email,
+    setEmail,
+    senha,
+    setSenha,
+    habilitarDesabilitar,
+    setHabilitarDesabilitar,
     buscaPorComida,
     title,
     SearchOk,
