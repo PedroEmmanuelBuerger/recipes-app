@@ -13,10 +13,6 @@ function AppReceitasProvider({ children }) {
   // Implementando lógica de armazenamento de e-mail e senha(LOGIN)
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  // Implementando lógica de armazenamento de e-mail e senha(LOGIN)
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
-
   // Implementando lógica de habilitação do botão Entrar(LOGIN)
   const [habilitarDesabilitar, setHabilitarDesabilitar] = useState(true);
   const verificaEmaileSenha = () => {
