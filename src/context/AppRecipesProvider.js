@@ -94,7 +94,6 @@ function AppRecipesProvider({ children }) {
     filterByCategory,
     filter,
     setFilter,
-
     RecipesDetailsApi,
     detailRecipe,
     mealsRecomaendation,

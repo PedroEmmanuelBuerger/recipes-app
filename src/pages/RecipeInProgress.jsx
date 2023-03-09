@@ -35,6 +35,27 @@ export default function RecipeInProgress() {
     });
   };
 
+  const saveLocalStorage = () => {
+    const AllCheckbox = document.querySelectorAll('input[type="checkbox"]');
+    const igredientNumberChecked = [];
+    AllCheckbox.forEach((checkbox, index) => {
+      if (checkbox.checked) {
+        igredientNumberChecked.push(index);
+      }
+    });
+    const id = pathname.split('/')[2];
+    const recipeInProgress = {
+      id,
+      ...igredientNumberChecked,
+    };
+    const oldLocalStorage = JSON.parse(localStorage.getItem('inProgressRecipes')) || [];
+    const newLocalStorage = [
+      ...oldLocalStorage,
+      recipeInProgress,
+    ];
+    localStorage.setItem('inProgressRecipes', JSON.stringify(newLocalStorage));
+  };
+
   return (
     <div>
       <h1>Recipes In Progress</h1>
@@ -51,7 +72,10 @@ export default function RecipeInProgress() {
         <div key={ index } data-testid={ `${index}-ingredient-step` }>
           <input
             type="checkbox"
-            onClick={ AltCss }
+            onClick={ () => {
+              saveLocalStorage();
+              AltCss();
+            } }
           />
           <label
             htmlFor={ `${index}-ingredient-step` }
