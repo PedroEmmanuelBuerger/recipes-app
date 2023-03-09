@@ -24,6 +24,17 @@ export default function RecipeInProgress() {
     setIngredients(removeUnusedIngredients);
   }, [detailRecipe]);
 
+  const AltCss = () => {
+    const AllCheckbox = document.querySelectorAll('input[type="checkbox"]');
+    AllCheckbox.forEach((checkbox) => {
+      if (checkbox.checked) {
+        checkbox.parentNode.style.textDecoration = 'line-through';
+      } else {
+        checkbox.parentNode.style.textDecoration = 'none';
+      }
+    });
+  };
+
   return (
     <div>
       <h1>Recipes In Progress</h1>
@@ -40,6 +51,7 @@ export default function RecipeInProgress() {
         <div key={ index } data-testid={ `${index}-ingredient-step` }>
           <input
             type="checkbox"
+            onClick={ AltCss }
           />
           <label
             htmlFor={ `${index}-ingredient-step` }
