@@ -1,7 +1,6 @@
-import React, { useState, useMemo,  useEffect, useCallback } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { fetchApiComidas, fetchApiBebidas } from '../helpers/fetchApi';
 import AppReceitasContext from './AppReceitasContext';
 
 function AppReceitasProvider({ children }) {
@@ -71,14 +70,22 @@ function AppReceitasProvider({ children }) {
     setSelected,
     buscaPorBebida,
     setBuscaPorBebida,
-    // LOGIN
     email,
     setEmail,
     senha,
     setSenha,
     habilitarDesabilitar,
     setHabilitarDesabilitar,
-    // LOGIN
+    textInput,
+    setTextInput,
+    buscaPorComida,
+    setBuscaPorComida,
+    title,
+    setTitle,
+    SearchOk,
+    setSearchOk,
+    SearchBarInput,
+    setSearchBarInput,
   }), [
     buscaPorComida,
     setBuscaPorComida,
@@ -90,7 +97,6 @@ function AppReceitasProvider({ children }) {
     setSearchBarInput,
     textInput,
     setTextInput,
-  }), [
     fetchAPI,
     selected,
     buscaPorBebida,
