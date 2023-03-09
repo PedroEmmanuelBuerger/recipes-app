@@ -5,12 +5,20 @@ import Header from '../components/Header';
 
 export default function Profile() {
   const history = useHistory();
+  // const user = JSON.parse(localStorage.getItem('user'));
+  // const { email } = user;
+
+  const handleClick = () => {
+    history.push('/');
+    // localStorage.removeItem(user);
+  };
+
   return (
     <div>
       <Header />
 
       <span data-testid="profile-email">
-        {/* Falta pegar e-mail do estado que vem da página Login */}
+        {/* { email } */}
       </span>
       <button
         type="button"
@@ -19,6 +27,8 @@ export default function Profile() {
       >
         Done Recipes
       </button>
+      <br />
+      <br />
       <button
         type="button"
         data-testid="profile-favorite-btn"
@@ -26,10 +36,12 @@ export default function Profile() {
       >
         Favorite Recipes
       </button>
+      <br />
+      <br />
       <button
         type="button"
         data-testid="profile-logout-btn"
-        onClick={ () => history.push('/') }
+        onClick={ handleClick }
       >
         Logout
       </button>
