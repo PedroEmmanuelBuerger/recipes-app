@@ -34,7 +34,11 @@ export default function Recipes() {
     history.push(path);
   };
 
-  // abc
+  useEffect(() => {
+    localStorage.removeItem('mealsProgess');
+    localStorage.removeItem('cocktailsProgess');
+  });
+
   useEffect(() => {
     const { location: { pathname } } = history;
     if (pathname.includes('meals')) {

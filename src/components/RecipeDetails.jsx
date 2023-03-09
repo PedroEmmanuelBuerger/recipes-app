@@ -15,6 +15,8 @@ export default function RecipeDetails() {
   useEffect(() => {
     const id = pathname.split('/')[2];
     RecipesDetailsApi(id, pathname);
+    localStorage.removeItem('mealsProgess');
+    localStorage.removeItem('cocktailsProgess');
   }, []);
 
   useEffect(() => {

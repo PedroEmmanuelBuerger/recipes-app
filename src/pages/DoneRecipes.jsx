@@ -7,8 +7,6 @@ import shareIcon from '../images/shareIcon.svg';
 // O useHistory fornece acesso à history que você pode usar para navegar
 export default function DoneRecipes() {
   const history = useHistory();
-  const path = history.location.pathname;
-  console.log(path);
   const [receitasFeitas, setReceitasFeitas] = useState([]);
 
   const informs = [{
