@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import { Switch, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Meals from './pages/Meals';
@@ -11,20 +10,21 @@ import DrinkDetails from './pages/DrinkDetails';
 import MealsDetails from './pages/MealsDetails';
 import DrinkDetailsinProgress from './pages/DrinkDetailsinProgress';
 import MealsDetailsInProgress from './pages/MealsDetailsInProgress';
+import './App.css';
 
 function App() {
   return (
     <Switch>
       <Route
-        path="/drinks/:id-da-receita/in-progress"
+        path="/drinks/:id/in-progress"
         component={ DrinkDetailsinProgress }
       />
       <Route
-        path="/meals/:id-da-receita/in-progress"
+        path="/meals/:id/in-progress"
         component={ MealsDetailsInProgress }
       />
-      <Route path="/drinks:id-da-receita" component={ DrinkDetails } />
-      <Route path="/meals/:id-da-receita" component={ MealsDetails } />
+      <Route path="/drinks/:id" component={ DrinkDetails } />
+      <Route path="/meals/:id" component={ MealsDetails } />
       <Route path="/meals" component={ Meals } />
       <Route path="/drinks" component={ Drinks } />
       <Route path="/profile" component={ Profile } />
