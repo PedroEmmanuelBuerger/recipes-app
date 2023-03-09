@@ -11,6 +11,7 @@ export default function RecipeInProgress() {
   const { pathname } = history.location;
 
   const [ingredients, setIngredients] = useState([]);
+  // const [disabledButton, setDisabledButton] = useState(false);
 
   const AltCss = () => {
     const AllCheckbox = document.querySelectorAll(inputCheckbox);

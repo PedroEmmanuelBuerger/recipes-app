@@ -6,7 +6,6 @@ import AppReceitasContext from './AppReceitasContext';
 function AppReceitasProvider({ children }) {
   const history = useHistory();
 
-  // Estados que controlam o formulário
   const [selected, setSelected] = useState('');
   const [textInput, setTextInput] = useState('');
 
