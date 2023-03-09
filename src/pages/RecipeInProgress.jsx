@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom';
 import ButtonsSmall from '../components/ButtonsSmall';
 import AppRecipesContext from '../context/AppRecipesContext';
 
+const inputCheckbox = 'input[type="checkbox"]';
+
 export default function RecipeInProgress() {
   const { RecipesDetailsApi, detailRecipe } = useContext(AppRecipesContext);
   const history = useHistory();
@@ -10,22 +12,8 @@ export default function RecipeInProgress() {
 
   const [ingredients, setIngredients] = useState([]);
 
-  useEffect(() => {
-    if (detailRecipe.length === 0) {
-      const id = pathname.split('/')[2];
-      RecipesDetailsApi(id, pathname);
-    }
-    const alligrendients = Object.entries(detailRecipe)
-      .filter((ingredient) => ingredient[0]
-        .includes('strIngredient') && ingredient[1] !== null)
-      .map((ingredient) => ingredient[1]);
-    const removeUnusedIngredients = alligrendients
-      .filter((ingredient) => ingredient !== '');
-    setIngredients(removeUnusedIngredients);
-  }, [detailRecipe]);
-
   const AltCss = () => {
-    const AllCheckbox = document.querySelectorAll('input[type="checkbox"]');
+    const AllCheckbox = document.querySelectorAll(inputCheckbox);
     AllCheckbox.forEach((checkbox) => {
       if (checkbox.checked) {
         checkbox.parentNode.style.textDecoration = 'line-through';
@@ -35,20 +23,52 @@ export default function RecipeInProgress() {
     });
   };
 
-  const saveLocalStorage = () => {
-    const AllCheckbox = document.querySelectorAll('input[type="checkbox"]');
-    const igredientNumberChecked = [];
-    AllCheckbox.forEach((checkbox, index) => {
-      if (checkbox.checked) {
-        igredientNumberChecked.push(index);
+  const verifyCheckbox = () => {
+    const oldLocalStorage = JSON.parse(localStorage.getItem('inProgressRecipes')) || [];
+    const getThisRecipe = oldLocalStorage
+      .filter((item) => item[0] === detailRecipe
+        .idMeal || item[0] === detailRecipe.idDrink);
+    const recipesWithoutId = getThisRecipe.map((item) => item.slice(1));
+    const recipesArr = recipesWithoutId.flat();
+    const AllCheckbox = document.querySelectorAll(inputCheckbox);
+    AllCheckbox.forEach((checkbox) => {
+      if (recipesArr.includes(checkbox.parentNode.innerText)) {
+        checkbox.checked = true;
+        AltCss();
       }
     });
-    const id = pathname.split('/')[2];
-    const recipeInProgress = {
-      id,
-      ...igredientNumberChecked,
-    };
+  };
+
+  useEffect(() => {
+    if (detailRecipe.length === 0) {
+      const id = pathname.split('/')[2];
+      RecipesDetailsApi(id, pathname);
+    }
+    if (ingredients.length === 0 && detailRecipe.length !== 0) {
+      const alligrendients = Object.entries(detailRecipe)
+        .filter((ingredient) => ingredient[0]
+          .includes('strIngredient') && ingredient[1] !== null)
+        .map((ingredient) => ingredient[1]);
+      const removeUnusedIngredients = alligrendients
+        .filter((ingredient) => ingredient !== '');
+      setIngredients(removeUnusedIngredients);
+    }
+    verifyCheckbox();
+  }, [detailRecipe, ingredients]);
+
+  const saveLocalStorage = () => {
     const oldLocalStorage = JSON.parse(localStorage.getItem('inProgressRecipes')) || [];
+    const AllCheckbox = document.querySelectorAll('input[type="checkbox"]');
+    const selectedIngredients = [];
+    AllCheckbox.forEach((checkbox) => {
+      if (checkbox.checked) {
+        selectedIngredients.push(checkbox.parentNode.innerText);
+      }
+    });
+    const recipeInProgress = [
+      detailRecipe.idMeal || detailRecipe.idDrink,
+      ...selectedIngredients,
+    ];
     const newLocalStorage = [
       ...oldLocalStorage,
       recipeInProgress,
