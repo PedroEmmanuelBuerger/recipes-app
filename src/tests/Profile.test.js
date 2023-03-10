@@ -8,6 +8,12 @@ import AppReceitasProvider from '../context/AppReceitasProvider';
 import AppRecipesProvider from '../context/AppRecipesProvider';
 
 describe('Testa as funcionalidades do Profile', () => {
+  beforeEach(() => {
+    localStorage.setItem('user', JSON.stringify({
+      email: 'wimucugyt@mailinator.com',
+    }));
+  });
+
   it('Testa se o título e inputs estão na tela', () => {
     const { history } = renderWithRouter(
       <AppRecipesProvider>
@@ -16,6 +22,7 @@ describe('Testa as funcionalidades do Profile', () => {
         </AppReceitasProvider>
       </AppRecipesProvider>,
     );
+
     act(() => {
       history.push('/profile');
     });

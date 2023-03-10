@@ -5,12 +5,12 @@ import Header from '../components/Header';
 
 export default function Profile() {
   const history = useHistory();
-  // const user = JSON.parse(localStorage.getItem('user'));
-  // const { email } = user;
+  const user = JSON.parse(localStorage.getItem('user'));
+  const { email } = user;
 
   const handleClick = () => {
+    localStorage.clear();
     history.push('/');
-    // localStorage.removeItem(user);
   };
 
   return (
@@ -18,8 +18,10 @@ export default function Profile() {
       <Header />
 
       <span data-testid="profile-email">
-        {/* { email } */}
+        { email }
       </span>
+      <br />
+      <br />
       <button
         type="button"
         data-testid="profile-done-btn"
