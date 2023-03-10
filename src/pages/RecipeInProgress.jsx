@@ -12,6 +12,7 @@ export default function RecipeInProgress() {
 
   const [ingredients, setIngredients] = useState([]);
   const [disabledButton, setDisabledButton] = useState(false);
+  const [tags, setTags] = useState([]);
 
   const AltCss = () => {
     const AllCheckbox = document.querySelectorAll(inputCheckbox);
@@ -50,10 +51,10 @@ export default function RecipeInProgress() {
         name: detailRecipe.strDrink || detailRecipe.strMeal,
         category: detailRecipe.strCategory || '',
         image: detailRecipe.strDrinkThumb || detailRecipe.strMealThumb,
+        tags: tags || [],
         alcoholicOrNot: detailRecipe.strAlcoholic || '',
         type: detailRecipe.strAlcoholic ? 'drink' : 'meal',
         doneDate: new Date().toLocaleDateString(),
-        tags: detailRecipe.strTags ? detailRecipe.strTags : [],
       },
     ];
     localStorage.setItem('doneRecipes', JSON.stringify(newLocalStorage));
@@ -73,6 +74,7 @@ export default function RecipeInProgress() {
         .filter((ingredient) => ingredient !== '');
       setIngredients(removeUnusedIngredients);
     }
+    setTags(detailRecipe.strTags ? detailRecipe.strTags.split(',') : []);
     verifyCheckbox();
   }, [detailRecipe, ingredients]);
 
