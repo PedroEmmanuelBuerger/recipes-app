@@ -250,7 +250,6 @@ describe('teste as funcionalidades de recipeInProgrss', () => {
     userEvent.click(allCheckboxes[0]);
     userEvent.click(allCheckboxes[1]);
     userEvent.click(allCheckboxes[2]);
-    console.log(allCheckboxes.length);
     expect(btn).toBeEnabled();
     userEvent.click(btn);
     const { pathname: pathname1 } = history.location;

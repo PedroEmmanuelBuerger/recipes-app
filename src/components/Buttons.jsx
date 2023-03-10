@@ -13,6 +13,8 @@ export default function Buttons() {
 
   const [icon, setIcon] = useState('');
   const [share, setShare] = useState(false);
+  const [done, setDone] = useState(false);
+  const [btnText, setBtnText] = useState('Start Recipe');
 
   const starRecipeBtn = () => {
     const id = pathname.split('/')[2];
@@ -20,6 +22,24 @@ export default function Buttons() {
       return history.push(`/meals/${id}/in-progress`);
     }
     return history.push(`/drinks/${id}/in-progress`);
+  };
+
+  const verifyButtons = () => {
+    const localStorageDone = JSON.parse(localStorage.getItem('doneRecipes')) || [];
+    const namePath = pathname.includes('meals') ? 'meals' : 'drinks';
+    const id = pathname.split('/')[2];
+    const isDone = localStorageDone?.some((item) => item.id === id);
+    setDone(!isDone);
+    const localStorageProgress = JSON
+      .parse(localStorage.getItem('inProgressRecipes')) || {};
+    const categoryLocal = localStorageProgress[namePath] || [];
+    const actualIdCategory = categoryLocal[id];
+    console.log(actualIdCategory);
+    if (actualIdCategory) {
+      console.log('entrou');
+      return setBtnText('Continue Recipe');
+    }
+    setBtnText('Start Recipe');
   };
 
   const shareRecipeBtn = () => {
@@ -56,6 +76,7 @@ export default function Buttons() {
   };
 
   useEffect(() => {
+    verifyButtons();
     const id = pathname.split('/')[2];
     const favorites = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
     const isFavorite = favorites.some((item) => item.id === id);
@@ -68,14 +89,16 @@ export default function Buttons() {
   return (
     <div style={ { padding: 30 } }>
       {share && <h2>Link copied!!</h2>}
-      <button
-        type="button"
-        data-testid="start-recipe-btn"
-        className="startButton"
-        onClick={ starRecipeBtn }
-      >
-        Start Recipe
-      </button>
+      {done && (
+        <button
+          type="button"
+          data-testid="start-recipe-btn"
+          className="startButton"
+          onClick={ starRecipeBtn }
+        >
+          {btnText}
+        </button>
+      )}
       <button data-testid="share-btn" onClick={ shareRecipeBtn }>
         <img src={ shareIcon } alt="share" />
       </button>

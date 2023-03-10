@@ -12,6 +12,7 @@ export default function RecipeInProgress() {
 
   const [ingredients, setIngredients] = useState([]);
   const [disabledButton, setDisabledButton] = useState(false);
+  const [nameOBJ, setNameOBJ] = useState('');
 
   const AltCss = () => {
     const AllCheckbox = document.querySelectorAll(inputCheckbox);
@@ -26,14 +27,12 @@ export default function RecipeInProgress() {
 
   const verifyCheckbox = () => {
     const oldLocalStorage = JSON.parse(localStorage.getItem('inProgressRecipes')) || [];
-    const getThisRecipe = oldLocalStorage
-      .filter((item) => item[0] === detailRecipe
-        .idMeal || item[0] === detailRecipe.idDrink);
-    const recipesWithoutId = getThisRecipe.map((item) => item.slice(1));
-    const recipesArr = recipesWithoutId.flat();
+    const getCategoryLocalStorage = oldLocalStorage[nameOBJ] || [];
+    const actualId = pathname.split('/')[2];
+    const drinkActual = getCategoryLocalStorage[actualId] || [];
     const AllCheckbox = document.querySelectorAll(inputCheckbox);
     AllCheckbox.forEach((checkbox) => {
-      if (recipesArr.includes(checkbox.parentNode.innerText)) {
+      if (drinkActual.includes(checkbox.parentNode.innerText)) {
         checkbox.checked = true;
       }
     });
@@ -76,6 +75,11 @@ export default function RecipeInProgress() {
     }
 
     verifyCheckbox();
+    if (pathname.includes('/meals')) {
+      setNameOBJ('meals');
+    } else {
+      setNameOBJ('drinks');
+    }
   }, [detailRecipe, ingredients]);
 
   const verifyBtn = () => {
@@ -91,32 +95,37 @@ export default function RecipeInProgress() {
     }
     return setDisabledButton(false);
   };
+
   const saveLocalStorage = () => {
     verifyBtn();
     const oldLocalStorage = JSON.parse(localStorage.getItem('inProgressRecipes')) || [];
-    const verifyId = oldLocalStorage
-      .filter((item) => item[0] === detailRecipe
-        .idMeal || item[0] === detailRecipe.idDrink);
-    if (verifyId.length !== 0) {
-      const index = oldLocalStorage.indexOf(verifyId[0]);
-      oldLocalStorage.splice(index, 1);
-    }
-    const AllCheckbox = document.querySelectorAll('input[type="checkbox"]');
-    const selectedIngredients = [];
-    AllCheckbox.forEach((checkbox) => {
-      if (checkbox.checked) {
-        selectedIngredients.push(checkbox.parentNode.innerText);
+    const id = pathname.split('/')[2];
+    const selectIgredients = document.querySelectorAll(inputCheckbox);
+    const ingredients2 = [];
+    selectIgredients.forEach((ingredient) => {
+      if (ingredient.checked) {
+        ingredients2.push(ingredient.parentNode.innerText);
       }
     });
-    const recipeInProgress = [
-      detailRecipe.idMeal || detailRecipe.idDrink,
-      ...selectedIngredients,
-    ];
-    const newLocalStorage = [
-      ...oldLocalStorage,
-      recipeInProgress,
-    ];
-    localStorage.setItem('inProgressRecipes', JSON.stringify(newLocalStorage));
+    const getRecipe = oldLocalStorage[nameOBJ];
+    if (getRecipe) {
+      const newLocalStorage = {
+        ...oldLocalStorage,
+        [nameOBJ]: {
+          ...getRecipe,
+          [id]: ingredients2,
+        },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(newLocalStorage));
+    } else {
+      const newLocalStorage = {
+        ...oldLocalStorage,
+        [nameOBJ]: {
+          [id]: ingredients2,
+        },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(newLocalStorage));
+    }
   };
 
   return (
