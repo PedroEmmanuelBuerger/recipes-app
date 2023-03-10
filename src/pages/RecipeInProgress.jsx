@@ -11,7 +11,8 @@ export default function RecipeInProgress() {
   const { pathname } = history.location;
 
   const [ingredients, setIngredients] = useState([]);
-  // const [disabledButton, setDisabledButton] = useState(false);
+  const [disabledButton, setDisabledButton] = useState(false);
+  const [tags, setTags] = useState([]);
 
   const AltCss = () => {
     const AllCheckbox = document.querySelectorAll(inputCheckbox);
@@ -40,6 +41,25 @@ export default function RecipeInProgress() {
     });
   };
 
+  const saveRecipes = () => {
+    const oldLocalStorage = JSON.parse(localStorage.getItem('doneRecipes')) || [];
+    const newLocalStorage = [
+      ...oldLocalStorage,
+      {
+        id: detailRecipe.idMeal || detailRecipe.idDrink,
+        nationality: detailRecipe.strArea || '',
+        name: detailRecipe.strDrink || detailRecipe.strMeal,
+        category: detailRecipe.strCategory || '',
+        image: detailRecipe.strDrinkThumb || detailRecipe.strMealThumb,
+        tags: tags || [],
+        alcoholicOrNot: detailRecipe.strAlcoholic || '',
+        type: detailRecipe.strAlcoholic ? 'drink' : 'meal',
+        doneDate: new Date().toLocaleDateString(),
+      },
+    ];
+    localStorage.setItem('doneRecipes', JSON.stringify(newLocalStorage));
+    history.push('/done-recipes');
+  };
   useEffect(() => {
     if (detailRecipe.length === 0) {
       const id = pathname.split('/')[2];
@@ -54,11 +74,33 @@ export default function RecipeInProgress() {
         .filter((ingredient) => ingredient !== '');
       setIngredients(removeUnusedIngredients);
     }
+    setTags(detailRecipe.strTags ? detailRecipe.strTags.split(',') : []);
     verifyCheckbox();
   }, [detailRecipe, ingredients]);
 
+  const verifyBtn = () => {
+    const AllCheckbox = document.querySelectorAll(inputCheckbox);
+    const checked = [];
+    AllCheckbox.forEach((checkbox) => {
+      if (checkbox.checked) {
+        checked.push(checkbox);
+      }
+    });
+    if (checked.length === AllCheckbox.length) {
+      return setDisabledButton(true);
+    }
+    return setDisabledButton(false);
+  };
   const saveLocalStorage = () => {
+    verifyBtn();
     const oldLocalStorage = JSON.parse(localStorage.getItem('inProgressRecipes')) || [];
+    const verifyId = oldLocalStorage
+      .filter((item) => item[0] === detailRecipe
+        .idMeal || item[0] === detailRecipe.idDrink);
+    if (verifyId.length !== 0) {
+      const index = oldLocalStorage.indexOf(verifyId[0]);
+      oldLocalStorage.splice(index, 1);
+    }
     const AllCheckbox = document.querySelectorAll('input[type="checkbox"]');
     const selectedIngredients = [];
     AllCheckbox.forEach((checkbox) => {
@@ -109,7 +151,14 @@ export default function RecipeInProgress() {
         { detailRecipe.strAlcoholic || detailRecipe.strCategory }
       </h3>
       <p data-testid="instructions">{ detailRecipe.strInstructions }</p>
-      <button data-testid="finish-recipe-btn">Finalizar Receita</button>
+      <button
+        data-testid="finish-recipe-btn"
+        className="startButton"
+        disabled={ !disabledButton }
+        onClick={ saveRecipes }
+      >
+        Finalizar Receita
+      </button>
     </div>
   );
 }
