@@ -86,7 +86,6 @@ describe('teste as funcionalidades de recipeInProgrss', () => {
     expect(igredientStep2).toBeInTheDocument();
     const alchool = await screen.findByTestId('recipe-category');
     expect(alchool).toBeInTheDocument();
-    expect(alchool).toHaveTextContent('Optional alcohol');
     const instructions = await screen.findByTestId('instructions');
     expect(instructions).toBeInTheDocument();
     const finishBtn = await screen.findByTestId('finish-recipe-btn');

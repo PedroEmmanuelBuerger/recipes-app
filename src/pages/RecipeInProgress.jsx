@@ -59,6 +59,13 @@ export default function RecipeInProgress() {
 
   const saveLocalStorage = () => {
     const oldLocalStorage = JSON.parse(localStorage.getItem('inProgressRecipes')) || [];
+    const verifyId = oldLocalStorage
+      .filter((item) => item[0] === detailRecipe
+        .idMeal || item[0] === detailRecipe.idDrink);
+    if (verifyId.length !== 0) {
+      const index = oldLocalStorage.indexOf(verifyId[0]);
+      oldLocalStorage.splice(index, 1);
+    }
     const AllCheckbox = document.querySelectorAll('input[type="checkbox"]');
     const selectedIngredients = [];
     AllCheckbox.forEach((checkbox) => {
