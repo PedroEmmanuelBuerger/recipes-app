@@ -11,7 +11,7 @@ export default function RecipeInProgress() {
   const { pathname } = history.location;
 
   const [ingredients, setIngredients] = useState([]);
-  // const [disabledButton, setDisabledButton] = useState(false);
+  const [disabledButton, setDisabledButton] = useState(false);
 
   const AltCss = () => {
     const AllCheckbox = document.querySelectorAll(inputCheckbox);
@@ -57,7 +57,21 @@ export default function RecipeInProgress() {
     verifyCheckbox();
   }, [detailRecipe, ingredients]);
 
+  const verifyBtn = () => {
+    const AllCheckbox = document.querySelectorAll(inputCheckbox);
+    const checked = [];
+    AllCheckbox.forEach((checkbox) => {
+      if (checkbox.checked) {
+        checked.push(checkbox);
+      }
+    });
+    if (checked.length === AllCheckbox.length) {
+      return setDisabledButton(true);
+    }
+    return setDisabledButton(false);
+  };
   const saveLocalStorage = () => {
+    verifyBtn();
     const oldLocalStorage = JSON.parse(localStorage.getItem('inProgressRecipes')) || [];
     const verifyId = oldLocalStorage
       .filter((item) => item[0] === detailRecipe
@@ -116,7 +130,13 @@ export default function RecipeInProgress() {
         { detailRecipe.strAlcoholic || detailRecipe.strCategory }
       </h3>
       <p data-testid="instructions">{ detailRecipe.strInstructions }</p>
-      <button data-testid="finish-recipe-btn">Finalizar Receita</button>
+      <button
+        data-testid="finish-recipe-btn"
+        className="startButton"
+        disabled={ !disabledButton }
+      >
+        Finalizar Receita
+      </button>
     </div>
   );
 }
