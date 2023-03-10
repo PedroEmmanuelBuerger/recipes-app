@@ -40,6 +40,25 @@ export default function RecipeInProgress() {
     });
   };
 
+  const saveRecipes = () => {
+    const oldLocalStorage = JSON.parse(localStorage.getItem('doneRecipes')) || [];
+    const newLocalStorage = [
+      ...oldLocalStorage,
+      {
+        id: detailRecipe.idMeal || detailRecipe.idDrink,
+        nationality: detailRecipe.strArea || '',
+        name: detailRecipe.strDrink || detailRecipe.strMeal,
+        category: detailRecipe.strCategory || '',
+        image: detailRecipe.strDrinkThumb || detailRecipe.strMealThumb,
+        alcoholicOrNot: detailRecipe.strAlcoholic || '',
+        type: detailRecipe.strAlcoholic ? 'drink' : 'meal',
+        doneDate: new Date().toLocaleDateString(),
+        tags: detailRecipe.strTags ? detailRecipe.strTags : [],
+      },
+    ];
+    localStorage.setItem('doneRecipes', JSON.stringify(newLocalStorage));
+    history.push('/done-recipes');
+  };
   useEffect(() => {
     if (detailRecipe.length === 0) {
       const id = pathname.split('/')[2];
@@ -134,6 +153,7 @@ export default function RecipeInProgress() {
         data-testid="finish-recipe-btn"
         className="startButton"
         disabled={ !disabledButton }
+        onClick={ saveRecipes }
       >
         Finalizar Receita
       </button>

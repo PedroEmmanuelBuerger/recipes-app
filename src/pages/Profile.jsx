@@ -5,7 +5,7 @@ import Header from '../components/Header';
 
 export default function Profile() {
   const history = useHistory();
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
   const { email } = user;
 
   const handleClick = () => {
