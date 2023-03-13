@@ -24,7 +24,6 @@ describe('Testes da página DoneRecipes', () => {
     }));
   });
 
-
   it('verifica se na tela de meals é tudo renderizado igualmente', async () => {
     const filterMealBtn = await screen.findByTestId('filter-by-meal-btn');
     expect(filterMealBtn).toBeInTheDocument();
