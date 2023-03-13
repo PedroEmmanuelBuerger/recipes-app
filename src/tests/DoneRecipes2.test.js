@@ -24,19 +24,8 @@ describe('Testes da página DoneRecipes', () => {
     }));
   });
 
+
   it('verifica se na tela de meals é tudo renderizado igualmente', async () => {
-    const { history } = renderWithRouter(
-      <AppRecipesProvider>
-        <AppReceitasProvider>
-          <App />
-        </AppReceitasProvider>
-      </AppRecipesProvider>,
-    );
-
-    act(() => {
-      history.push(doneRecipes);
-    });
-
     const filterMealBtn = await screen.findByTestId('filter-by-meal-btn');
     expect(filterMealBtn).toBeInTheDocument();
     userEvent.click(filterMealBtn);
@@ -77,6 +66,7 @@ describe('Testes da página DoneRecipes', () => {
     act(() => {
       history.push(doneRecipes);
     });
+
     const drinkButton = await screen.findByTestId('filter-by-drink-btn');
     userEvent.click(drinkButton);
 
