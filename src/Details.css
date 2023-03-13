@@ -1,27 +1,9 @@
-.footer {
-  bottom: 0;
-  position: fixed;
-}
-
-.startButton {
-  bottom: 0;
-  position: fixed;
-}
-
-img {
-  width: 80px;
-  height: 80px;
-}
-
 body {
-  color: black;
-  background-color: rgb(255, 49, 49);
-}
- buttons horizontal-share-btn {
-  border-radius: 5px;
-  border-color: rgb(119, 117, 117) solid 1px;
- 
- }
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  background-color: blue;
+};
 
 h2 {
   position: relative;
@@ -37,8 +19,8 @@ h2 {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  display: flex;
-  position: relative;
+ display: flex;
+ position: relative;
   width: 50%;
   left: 460px;
   max-height: 500px;
@@ -124,7 +106,7 @@ button:hover {
 
 }
 
-h1 recipe-title {
+.h1 recipe-title {
   color: blue;
   font-size: 30px;
   text-align: center;
@@ -132,7 +114,28 @@ h1 recipe-title {
   color: #323131;
   top: 10px;
 } 
-.recipe-card {
-border-radius: 5px;
-color: yellow;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

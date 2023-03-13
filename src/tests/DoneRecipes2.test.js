@@ -10,19 +10,19 @@ import AppRecipesProvider from '../context/AppRecipesProvider';
 const doneRecipes = '/done-recipes';
 
 describe('Testes da página DoneRecipes', () => {
-  // beforeEach(() => {
-  //   localStorage.setItem('user', JSON.stringify({
-  //     id: '178319',
-  //     type: 'drink',
-  //     nationality: '',
-  //     category: 'Cocktail',
-  //     alcoholicOrNot: 'Alcoholic',
-  //     name: 'Aquamarine',
-  //     image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
-  //     doneDate: '23/06/2020',
-  //     tags: [],
-  //   }));
-  // });
+  beforeEach(() => {
+    localStorage.setItem('user', JSON.stringify({
+      id: '178319',
+      type: 'drink',
+      nationality: '',
+      category: 'Cocktail',
+      alcoholicOrNot: 'Alcoholic',
+      name: 'Aquamarine',
+      image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
+      doneDate: '23/06/2020',
+      tags: [],
+    }));
+  });
 
   it('verifica se na tela de meals é tudo renderizado igualmente', async () => {
     const { history } = renderWithRouter(
