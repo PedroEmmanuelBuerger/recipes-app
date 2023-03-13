@@ -8,9 +8,8 @@ import shareIcon from '../images/shareIcon.svg';
 // O useHistory fornece acesso à history que vocÊ pode usar para navegar
 export default function DoneRecipes() {
   const [share, setShare] = useState(false);
-  // const history = useHistory();
-  // const { location: { pathname } } = history;
-  const receitasFeitas = JSON.parse(localStorage.getItem('doneRecipes') || '{}');
+
+  const receitasFeitas = JSON.parse(localStorage.getItem('doneRecipes')) || [];
   console.log(receitasFeitas);
   const shareRecipeBtn = (receita) => {
     const url = `http://localhost:3000/meals/${receita.id}` || `http://localhost:3000/drinks/${receita.id}`;
@@ -18,6 +17,13 @@ export default function DoneRecipes() {
     copy(urlWithoutInPRogress);
     setShare(true);
   };
+  // Requisito 48
+  const filtraPorTipo = (filter) => {
+    if (filter === 'all') return setShare(receitasFeitas);
+    const filterType = receitasFeitas.filter((recipes) => recipes.type === filter);
+    setShare(filterType);
+  };
+
   return (
     <>
       <div>
@@ -26,23 +32,27 @@ export default function DoneRecipes() {
       <div>
         <section>
           <button
+            name="all"
             data-testid="filter-by-all-btn"
-            onClick={ () => { console.log(receitasFeitas); } }
+            onClick={ () => filtraPorTipo('all') }
           >
             All
           </button>
           <button
+            name="meal"
             data-testid="filter-by-meal-btn"
-            onClick={ () => { console.log('click'); } }
+            onClick={ () => filtraPorTipo('meal') }
           >
             Meals
           </button>
           <button
+            name="drink"
             data-testid="filter-by-drink-btn"
-            onClick={ () => { console.log('click'); } }
+            onClick={ () => filtraPorTipo('drink') }
           >
             Drinks
           </button>
+
         </section>
         {receitasFeitas.map((receita, index) => (
           <div
@@ -59,12 +69,15 @@ export default function DoneRecipes() {
               {`${receita.nationality} -
             ${receita.category}`}
             </h4>
+
             <h5 data-testid={ `${index}-horizontal-name` }>
               {receita.name}
             </h5>
-            <p data-testid={ `${index}-horizontal-done-date` }>
-              {receita.doneDate}
-            </p>
+
+            <p data-testid={ `${index}-horizontal-done-date` }>{ receita.doneDate}</p>
+            {/* <button onClick={ () => shareLink(receita.id, receita.type) }> */}
+            {receita.doneDate}
+
             {receita.type === 'meal'
               ? receita.tags.map((tag, indice) => (
                 <span
@@ -86,6 +99,7 @@ export default function DoneRecipes() {
                 data-testid={ `${index}-horizontal-share-btn` }
               />
             </button>
+
             <button
               data-testid={ `${index}-horizontal-favorite-btn` }
               onClick={ () => { console.log('click'); } }
