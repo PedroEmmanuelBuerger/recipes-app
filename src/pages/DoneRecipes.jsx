@@ -8,7 +8,6 @@ import shareIcon from '../images/shareIcon.svg';
 // O useHistory fornece acesso à history que vocÊ pode usar para navegar
 export default function DoneRecipes() {
   const [share, setShare] = useState(false);
-  const [typeFood, setTypeFood] = useState('');
 
   const receitasFeitas = JSON.parse(localStorage.getItem('doneRecipes')) || [];
   console.log(receitasFeitas);
@@ -18,21 +17,11 @@ export default function DoneRecipes() {
     copy(urlWithoutInPRogress);
     setShare(true);
   };
-
-  // const filtraComidas = () => {
-  //   const novasReceitas = receitasFeitas.filter((recipe) => recipe.type === 'meal');
-  //   setShare(novasReceitas);
-  // };
-  // const filtraDrinks = () => {
-  //   console.log('Meals');
-  //   const novasReceitas = receitasFeitas.filter((recipe) => recipe.type === 'drink');
-  //   setShare(novasReceitas);
-  // };
-
-  const filtraTipos = (type) => {
-    const filtros = receitasFeitas.filter((receita) => receita.type === type);
-    setTypeFood(type === 'all' ? '' : type);
-
+  // Requisito 48
+  const filtraPorTipo = (filter) => {
+    if (filter === 'all') return setShare(receitasFeitas);
+    const filterType = receitasFeitas.filter((recipes) => recipes.type === filter);
+    setShare(filterType);
   };
 
   return (
@@ -45,36 +34,26 @@ export default function DoneRecipes() {
           <button
             name="all"
             data-testid="filter-by-all-btn"
-
-            onClick={ () => filtraTipos('all') }
-
+            onClick={ () => filtraPorTipo('all') }
           >
             All
           </button>
           <button
             name="meal"
             data-testid="filter-by-meal-btn"
-            onClick={ () => filtraTipos('meal') }
-
+            onClick={ () => filtraPorTipo('meal') }
           >
             Meals
           </button>
           <button
             name="drink"
             data-testid="filter-by-drink-btn"
-            onClick={ () => filtraTipos('drink') }
-
+            onClick={ () => filtraPorTipo('drink') }
           >
             Drinks
           </button>
 
         </section>
-
-        {receitasFeitas?.filter((receita) => receita.type.includes(typeFood))
-          .map((receita, index) => (
-            <div
-              key={ index }
-
         {receitasFeitas.map((receita, index) => (
           <div
             key={ index }
@@ -112,62 +91,13 @@ export default function DoneRecipes() {
             {share && <h2>Link copied!</h2>}
             <button
               onClick={ () => shareRecipeBtn(receita) }
-
             >
+              Compartilhar
               <img
-                data-testid={ `${index}-horizontal-image` }
-                src={ receita.image }
-                alt={ receita.name }
+                src={ shareIcon }
+                alt="imagem ícone"
+                data-testid={ `${index}-horizontal-share-btn` }
               />
-
-              <h4 data-testid={ `${index}-horizontal-top-text` }>
-                {receita.type === 'drink'
-                  ? receita.alcoholicOrNot : null }
-                {`${receita.nationality} -
-            ${receita.category}`}
-              </h4>
-
-              <span data-testid={ `${index}-horizontal-name` }>
-                {receita.name}
-              </span>
-
-              <span data-testid={ `${index}-horizontal-done-date` }>
-                {receita.doneDate}
-              </span>
-              {receita.type === 'meal'
-                ? receita.tags.map((tag, indice) => (
-
-                  <span
-                    data-testid={ `${index}-${tag}-horizontal-tag` }
-                    key={ indice }
-                  >
-                    {tag}
-                    {' '}
-                  </span>))
-                : null}
-              {share && <h2>Link copied!</h2>}
-
-              <button
-                onClick={ () => shareRecipeBtn(receita) }
-              >
-                Compartilhar
-                <img
-                  src={ shareIcon }
-                  alt="imagem ícone"
-                  data-testid={ `${index}-horizontal-share-btn` }
-                />
-              </button>
-
-              <button
-                data-testid={ `${index}-horizontal-favorite-btn` }
-                onClick={ () => { console.log('click'); } }
-              >
-                Favorite
-              </button>
-            </div>
-
-          ))}
-
             </button>
 
             <button
