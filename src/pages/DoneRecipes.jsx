@@ -18,19 +18,10 @@ export default function DoneRecipes() {
     setShare(true);
   };
 
-  // const filtraComidas = () => {
-  //   const novasReceitas = receitasFeitas.filter((recipe) => recipe.type === 'meal');
-  //   setShare(novasReceitas);
-  // };
-  // const filtraDrinks = () => {
-  //   console.log('Meals');
-  //   const novasReceitas = receitasFeitas.filter((recipe) => recipe.type === 'drink');
-  //   setShare(novasReceitas);
-  // };
-
   const filtraTipos = (type) => {
     const filtros = receitasFeitas.filter((receita) => receita.type === type);
     setTypeFood(type === 'all' ? '' : type);
+    console.log(filtros);
   };
 
   return (
