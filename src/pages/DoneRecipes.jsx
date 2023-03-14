@@ -70,7 +70,7 @@ export default function DoneRecipes() {
 
         </section>
 
-        {receitasFeitas.filter((receita) => receita.type.includes(typeFood))
+        {receitasFeitas?.filter((receita) => receita.type.includes(typeFood))
           .map((receita, index) => (
             <div
               key={ index }
