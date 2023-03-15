@@ -6,11 +6,11 @@ import shareIcon from '../images/shareIcon.svg';
 export default function DoneRecipes() {
   const [share, setShare] = useState(false);
   const [typeFood, setTypeFood] = useState('');
-
   const receitasFeitas = JSON.parse(localStorage.getItem('doneRecipes')) || [];
   console.log(receitasFeitas);
+
   const shareRecipeBtn = (receita) => {
-    const url = `http://localhost:3000/${receita.type}/${receita.id}`;
+    const url = `http://localhost:3000/${receita.type}s/${receita.id}`;
     const urlWithoutInProgress = url.replace('/in-progress', '');
     copy(urlWithoutInProgress);
     setShare(true);
@@ -19,7 +19,6 @@ export default function DoneRecipes() {
   const filtraTipos = (type) => {
     receitasFeitas.filter((receita) => receita.type === type);
     setTypeFood(type === 'all' ? '' : type);
-    console.log(filtros);
   };
 
   return (
@@ -48,7 +47,6 @@ export default function DoneRecipes() {
           Drinks
         </button>
       </section>
-
       {receitasFeitas
         .filter((receita) => receita.type.includes(typeFood))
         .map((receita, index) => (
@@ -59,20 +57,17 @@ export default function DoneRecipes() {
               alt={ receita.name }
             />
             <h4 data-testid={ `${index}-horizontal-top-text` }>
-              {receita.type === 'drink'
-                ? receita.alcoholicOrNot
-                : null}
-              {`${receita.area} - ${receita.category}`}
-            </h4>
 
+              {`${receita.type === 'drink'
+                ? receita.alcoholicOrNot
+                : receita.nationality} - ${receita.category}` }
+            </h4>
             <h5 data-testid={ `${index}-horizontal-name` }>
               {receita.name}
             </h5>
-
             <p data-testid={ `${index}-horizontal-done-date` }>
               {receita.doneDate}
             </p>
-
             {receita.type === 'meal'
               && receita.tags.map((tag, indice) => (
                 <span
@@ -82,7 +77,6 @@ export default function DoneRecipes() {
                   {tag}
                 </span>
               ))}
-
             {share && <h2>Link copied!</h2>}
             <button onClick={ () => shareRecipeBtn(receita) }>
               <img
@@ -92,7 +86,6 @@ export default function DoneRecipes() {
               />
               Compartilhar
             </button>
-
             <button
               data-testid={ `${index}-horizontal-favorite-btn` }
               onClick={ () => {
