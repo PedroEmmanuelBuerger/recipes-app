@@ -7,7 +7,6 @@ export default function DoneRecipes() {
   const [share, setShare] = useState(false);
   const [typeFood, setTypeFood] = useState('');
   const receitasFeitas = JSON.parse(localStorage.getItem('doneRecipes')) || [];
-  console.log(receitasFeitas);
 
   const shareRecipeBtn = (receita) => {
     const url = `http://localhost:3000/${receita.type}s/${receita.id}`;
@@ -88,9 +87,6 @@ export default function DoneRecipes() {
             </button>
             <button
               data-testid={ `${index}-horizontal-favorite-btn` }
-              onClick={ () => {
-                console.log('click');
-              } }
             >
               Favorite
             </button>

@@ -34,9 +34,7 @@ export default function Buttons() {
       .parse(localStorage.getItem('inProgressRecipes')) || {};
     const categoryLocal = localStorageProgress[namePath] || [];
     const actualIdCategory = categoryLocal[id];
-    console.log(actualIdCategory);
     if (actualIdCategory) {
-      console.log('entrou');
       return setBtnText('Continue Recipe');
     }
     setBtnText('Start Recipe');

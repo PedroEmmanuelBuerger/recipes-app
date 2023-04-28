@@ -24,7 +24,6 @@ export default function RecipeInProgress() {
       }
     });
   };
-  console.log(detailRecipe);
   const verifyCheckbox = () => {
     const oldLocalStorage = JSON.parse(localStorage.getItem('inProgressRecipes')) || [];
     const getCategoryLocalStorage = oldLocalStorage[nameOBJ] || [];
